@@ -2,3 +2,4 @@
 from .user import *
 from .stadium import *
 from .team import *
+from .event import *

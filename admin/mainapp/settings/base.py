@@ -14,7 +14,6 @@ SECRET_KEY = "velicyjh0)jmde&@qj=_)hzik!&sw4ml8b92ni&!y@=cu(-hj8"
 INSTALLED_APPS = [
     # On explicite l"usage de notre application pour que les templates
     # soient détectés automatiquement par Django
-    "corsheaders",
     "mainapp.apps.MainappConfig",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -22,6 +21,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -36,7 +36,7 @@ MIDDLEWARE = [
 ]
 
 # Les URLs sont désormais déclarées dans leur propre module
-ROOT_URLCONF = "mainapp.urls"
+ROOT_URLCONF = "config.urls"
 
 WSGI_APPLICATION = "mainapp.wsgi.application"
 
@@ -65,9 +65,9 @@ DATABASES = {
         # !!! A remplacer avec vos informations de connexion !!!
         'NAME': "jo_project_starter",
         "USER": "root",
-        "PASSWORD": "",
+        "PASSWORD": "Ahcene00",
         "HOST": "127.0.0.1",
-        "PORT": "",
+        "PORT": "3306",
     }
 }
 
@@ -121,5 +121,6 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5500",  # Adresse URL local sur le port liveserver
 ]
 ALLOWED_HOSTS = [
+    'localhost',
     '127.0.0.1',  # Pour les tests en local
 ]

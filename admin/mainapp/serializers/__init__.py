@@ -1,1 +1,2 @@
 from .auth_serializers import RegisterSerializer, LoginSerializer
+from .stadium_serializers import StadiumSerializer

@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Event(models.Model):
     stadium = models.ForeignKey("Stadium", on_delete=models.PROTECT)
     team_home = models.ForeignKey("Team", on_delete=models.PROTECT, null=True, related_name="events_as_home")

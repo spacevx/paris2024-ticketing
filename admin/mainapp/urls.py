@@ -1,7 +1,7 @@
+# mainapp/urls.py
 from django.urls import path
-from .views import stadiums
+from . import views
 
-# Un exemple de endpoint qui renverait les stades... Si la vue était faite :)
-urlpatterns = (
-    path("api/stadiums", stadiums),
-)
+urlpatterns = [
+    path('register/', views.RegisterView.as_view(), name='auth_register'),
+]

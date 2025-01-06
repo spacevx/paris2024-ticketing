@@ -1,2 +1,0 @@
-def stadiums(request):
-    return {}

@@ -12,5 +12,5 @@ class StadiumView(APIView):
         if (len(serializer.data) <= 0):
             return Response({
                 'message': 'Aucun stade présent dans la base de données'
-            }, status=status.HTTP_404_NOT_FOUND)
+            }, status=status.HTTP_200_OK)
         return Response(serializer.data)

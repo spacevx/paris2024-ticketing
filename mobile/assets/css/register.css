@@ -1,0 +1,291 @@
+:root {
+    font-size: 16px;
+    --primary-color: #1B1F3B;
+    --accent-color: #FF007C;
+    --gold: #FFD700;
+    --silver: #C0C0C0;
+    --bronze: #CD7F32;
+    --text-color: #666666;
+    --border-color: #E0E0E0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--primary-color);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: linear-gradient(45deg, var(--gold), var(--accent-color));
+    opacity: 0.1;
+    animation: gradientShift 15s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.register-container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    min-height: 100vh;
+}
+
+.register-hero {
+    flex: 1;
+    background: url('/api/placeholder/800/600') center center/cover;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.register-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(27,31,59,0.3), rgba(27,31,59,0.9));
+}
+
+.olympics-logo {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.rings {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.ring {
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid;
+    border-radius: 50%;
+}
+
+.ring-blue { border-color: #0085C7; }
+.ring-yellow { border-color: #F4C300; }
+.ring-black { border-color: #000000; }
+.ring-green { border-color: #009F3D; }
+.ring-red { border-color: #DF0024; }
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 400px;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.hero-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.register-form {
+    flex: 1;
+    background: white;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 500px;
+}
+
+.form-header {
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.form-title {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-label {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    background: white;
+    padding: 0 0.5rem;
+    pointer-events: none;
+}
+
+.input-field {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+.input-field:focus + .form-label,
+.input-field:not(:placeholder-shown) + .form-label {
+    transform: translateY(-1.5rem);
+    font-size: 0.8rem;
+    color: var(--accent-color);
+}
+
+.password-requirements {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-color);
+}
+
+.requirement {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.25rem 0;
+}
+
+.requirement-icon {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 2px solid var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.requirement.valid .requirement-icon {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn:hover {
+    background: var(--accent-color);
+}
+
+.submit-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.submit-btn:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(100, 100);
+        opacity: 0;
+    }
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--text-color);
+}
+
+.login-link a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+    .register-hero {
+        display: none;
+    }
+    
+    .register-form {
+        max-width: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .register-form {
+        padding: 2rem;
+    }
+
+    .form-title {
+        font-size: 1.75rem;
+    }
+}

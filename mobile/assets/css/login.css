@@ -1,0 +1,309 @@
+/* Base font-size pour le calcul des rem */
+:root {
+    font-size: 16px;
+    --primary-color: #1B1F3B;
+    --accent-color: #FF007C;
+    --text-color: #666666;
+    --border-color: #E0E0E0;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --gradient-start: rgba(255, 0, 124, 0.1);
+    --gradient-end: rgba(0, 174, 239, 0.1);
+}
+
+@font-face {
+    font-family: 'Paris2024';
+    src: url('../fonts/Paris2024.ttf') format('truetype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    font-family: 'Paris2024', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    z-index: 1;
+}
+
+.olympics-rings {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    width: 9.75rem;
+    height: auto;
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 1.25rem 2.5rem var(--shadow-color);
+    width: 100%;
+    max-width: 27.5rem;
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(0.625rem);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.logo h1 {
+    color: var(--primary-color);
+    font-size: 2.25rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.0625rem;
+}
+
+.tagline {
+    color: var(--accent-color);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.125rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.input-field {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 0.125rem solid var(--border-color);
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+    color: var(--primary-color);
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(27, 31, 59, 0.1);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color);
+    padding: 0.25rem;
+}
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 0.25rem;
+    border: 0.125rem solid var(--primary-color);
+}
+
+.forgot-password {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+    color: var(--primary-color);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.submit-btn:hover {
+    background: var(--accent-color);
+    transform: translateY(-0.125rem);
+}
+
+.submit-btn:disabled {
+    background: var(--border-color);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.spinner {
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 0.125rem solid white;
+    border-top: 0.125rem solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: none;
+}
+
+.register-link {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-color);
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+.register-link a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 0.25rem;
+    display: inline-block;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    background: rgba(255, 0, 0, 0.1);
+    color: var(--accent-color);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+    display: none;
+    border: 0.0625rem solid rgba(255, 0, 0, 0.2);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Media Queries avec em pour plus de précision */
+@media (max-width: 30em) {
+
+    /* 480px */
+    :root {
+        font-size: 15px;
+    }
+
+    .login-container {
+        padding: 1.5rem;
+        border-radius: 1.25rem 1.25rem 0 0;
+    }
+
+    .olympics-rings {
+        transform: translateX(-50%) scale(0.7);
+    }
+
+    .register-link {
+        font-size: 0.8125rem;
+        padding: 0.75rem 0;
+    }
+}
+
+@media (max-width: 22.5em) {
+
+    /* 360px */
+    :root {
+        font-size: 14px;
+    }
+
+    .remember-forgot {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+}
+
+@media (min-width: 48em) {
+
+    /* 768px */
+    :root {
+        font-size: 16px;
+    }
+
+    .login-container {
+        padding: 3rem;
+        margin-top: 4rem;
+    }
+
+    .olympics-rings {
+        top: 2rem;
+    }
+}
+
+/* Ajustement pour les très grands écrans */
+@media (min-height: 50em) {
+
+    /* 800px height */
+    .olympics-rings {
+        top: 5rem;
+    }
+
+    .login-container {
+        margin-top: 5rem;
+    }
+}
+
+/* Support écrans haute résolution */
+@media (min-resolution: 192dpi) {
+    .login-container {
+        backdrop-filter: blur(1.25rem);
+    }
+}
+
+/* Préférences de réduction de mouvement */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

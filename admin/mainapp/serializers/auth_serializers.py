@@ -2,16 +2,21 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 
-class LoginSerializer(serializers.Serializer):  # Pas ModelSerializer ici car on ne veut pas créer un user
-    username = serializers.CharField()
+from django.db.models import Q
+
+class LoginSerializer(serializers.Serializer):
+    login = serializers.CharField()
     password = serializers.CharField()
 
     def validate(self, attrs):
-        username = attrs.get('username')
+        login = attrs.get('login')
         password = attrs.get('password')
 
-        if username and password:
-            user = User.objects.filter(username=username).first()
+        if login and password:
+            # Chercher l'utilisateur par username ou email
+            user = User.objects.filter(
+                Q(username=login) | Q(email=login)
+            ).first()
 
             if user:
                 if user.check_password(password):
@@ -23,11 +28,11 @@ class LoginSerializer(serializers.Serializer):  # Pas ModelSerializer ici car on
                     })
             else:
                 raise serializers.ValidationError({
-                    'username': 'Utilisateur non trouvé.'
+                    'login': 'Aucun utilisateur trouvé avec cet email ou nom d\'utilisateur.'
                 })
         else:
             raise serializers.ValidationError({
-                'error': 'Le nom d\'utilisateur et le mot de passe sont requis.'
+                'error': 'L\'identifiant et le mot de passe sont requis.'
             })
 
 # ModelSerializer permet de définir les champs de user (spécifié dans la classe Meta) 

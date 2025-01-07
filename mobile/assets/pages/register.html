@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paris 2024 - Inscription</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="../css/register.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="register-container">
+        <div class="register-hero">
+            <div class="olympics-logo">
+                <div class="rings">
+                    <div class="ring ring-blue"></div>
+                    <div class="ring ring-yellow"></div>
+                    <div class="ring ring-black"></div>
+                    <div class="ring ring-green"></div>
+                    <div class="ring ring-red"></div>
+                </div>
+                <div class="logo-text">PARIS 2024</div>
+            </div>
+            <div class="hero-content">
+                <h2 class="hero-title">Rejoignez l'aventure olympique</h2>
+                <p class="hero-text">Créez votre compte pour vivre les Jeux Olympiques comme jamais auparavant. Accédez aux événements exclusifs, réservez vos places et suivez vos athlètes préférés.</p>
+            </div>
+        </div>
+
+        <div class="register-form">
+            <div class="form-header">
+                <h1 class="form-title">Créer un compte</h1>
+                <div class="form-subtitle">Ouvrons grand les jeux</div>
+            </div>
+
+            <form id="registerForm" novalidate>
+                <div class="form-group">
+                    <input type="text" class="input-field" id="name" placeholder=" " required>
+                    <label class="form-label" for="name">Nom complet</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" class="input-field" id="email" placeholder=" " required>
+                    <label class="form-label" for="email">Adresse email</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="input-field" id="password" placeholder=" " required>
+                    <label class="form-label" for="password">Mot de passe</label>
+                    <div class="password-requirements">
+                        <div class="requirement" data-requirement="length">
+                            <div class="requirement-icon"></div>
+                            <span>8 caractères minimum</span>
+                        </div>
+                        <div class="requirement" data-requirement="uppercase">
+                            <div class="requirement-icon"></div>
+                            <span>Une lettre majuscule</span>
+                        </div>
+                        <div class="requirement" data-requirement="number">
+                            <div class="requirement-icon"></div>
+                            <span>Un chiffre</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="input-field" id="confirmPassword" placeholder=" " required>
+                    <label class="form-label" for="confirmPassword">Confirmer le mot de passe</label>
+                </div>
+
+                <button type="submit" class="submit-btn">Créer mon compte</button>
+
+                <div class="login-link">
+                    Déjà inscrit ? <a href="login.html">Se connecter</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/register.js"></script>
+</body>
+</html>

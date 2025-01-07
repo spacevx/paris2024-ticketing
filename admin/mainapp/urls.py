@@ -13,5 +13,6 @@ urlpatterns = [
     path('events/<int:pk>/', views.EventDetailView.as_view(), name='event-detail'),
 
     path('buy-ticket/', views.BuyTicketView.as_view(), name='buy_ticket'),
-
-]
+    path('getInfo/<str:pk>/', views.TicketView.as_view(), name='ticket-info'),
+    path('getInfos/', views.TicketView.as_view(), name='tickets-info'),
+]   

@@ -1,6 +1,12 @@
 from rest_framework import serializers
 from ..models import Ticket, Event
 
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = '__all__'
+    
+
 class BuyTicketSerializer(serializers.Serializer):
     ticket_count = serializers.IntegerField()
     category = serializers.ChoiceField(choices=["Silver", "Gold", "Platinium"])

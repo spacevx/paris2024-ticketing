@@ -3,4 +3,4 @@ from .user import *
 from .stadium import *
 from .team import *
 from .event import *
-from .buyticket import *
+from .ticket import *

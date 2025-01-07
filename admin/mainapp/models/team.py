@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Team(models.Model):
     name = models.CharField(max_length=100)
     # Code du pays au format ISO 3166-1 alpha-2

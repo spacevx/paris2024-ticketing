@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Event, Team
+from ..models import Event
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
@@ -7,13 +7,14 @@ class EventSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, attrs):
-        # On vérifie que les deux équipes ne sont pas les mêmes
+        # On check que les deux équipes ne sont pas les mêmes
         if attrs.get('team_home') == attrs.get('team_away'):
             raise serializers.ValidationError({
                 "teams": "Les équipes domicile et extérieur doivent être différentes"
             })
 
         # Il faut que l'une des deux équipes gagne (peut être faire un système de match null?)
+        # TODO: a voir car si le match n'est pas passé encore ça peut être null, same pour le score
         winner = attrs.get('winner')
         if winner and winner not in [attrs.get('team_home'), attrs.get('team_away')]:
             raise serializers.ValidationError({

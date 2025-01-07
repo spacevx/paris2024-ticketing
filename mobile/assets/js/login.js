@@ -45,16 +45,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await post(loginData, "login");
             console.log('Login successful:', data);
             
-            const sessionId = await getCookie('sessionid');
-            if (sessionId) {
-                localStorage.setItem('sessionId', sessionId);
+            const username = await data.user.username;
+            if (username) {
+                localStorage.setItem('username', data.user);
                 if (data.user) {
                     localStorage.setItem('userData', JSON.stringify(data.user));
                 }
-                console.log('Session ID stored:', sessionId);
                 
                 // On redirige l'utilisateur
-                window.location.href = '/dashboard';
+                window.location.href = '/mobile/assets/pages/dashboard.html';
             } else {
                 throw new Error('Session non créée');
             }

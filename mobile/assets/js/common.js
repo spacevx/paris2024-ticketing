@@ -24,7 +24,7 @@ async function fetchData(...routes) {
     const path = routes.join('/');
     const url = `http://localhost:8000/api/${path}`;
     console.log(url)
-    
+
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -41,7 +41,7 @@ async function fetchData(...routes) {
         const json = await response.json();
         return json;
 
-    } catch(error) {
+    } catch (error) {
         console.error('Erreur lors de la requête:', error);
         throw error;
     }
@@ -51,7 +51,7 @@ async function post(bodyParameters, ...routes) {
     // Construire l'URL avec les segments de route
     const path = routes.join('/');
     const url = `http://localhost:8000/api/${path}/`;
-    
+
     try {
         if (!CSRF_TOKEN) {
             await fetchData("stadiums"); // Pour avoir le cookie
@@ -85,7 +85,7 @@ async function post(bodyParameters, ...routes) {
 }
 
 function isAuthenticated() {
-    return !!localStorage.getItem('sessionId');
+    return !!localStorage.getItem('username');
 }
 
 function getUserData() {
@@ -95,22 +95,15 @@ function getUserData() {
 
 // Fonction pour les requêtes authentifiées
 async function authenticatedFetch(url, options = {}) {
-    const sessionId = localStorage.getItem('sessionId');
-    
-    if (!sessionId) {
+    const username = localStorage.getItem('username');
+
+    if (!username) {
         throw new Error('Non authentifié');
     }
-
-    // Ajouter les headers d'authentification si nécessaire
-    const headers = {
-        ...options.headers,
-        'X-Session-ID': sessionId
-    };
 
     try {
         const response = await fetch(url, {
             ...options,
-            headers,
             credentials: 'include'
         });
 
@@ -128,11 +121,25 @@ async function authenticatedFetch(url, options = {}) {
 }
 
 function clearSession() {
-    localStorage.removeItem('sessionId');
+    localStorage.removeItem('username');
     localStorage.removeItem('userData');
 }
 
 function getCachedUserData() {
     const userData = localStorage.getItem('userData');
     return userData ? JSON.parse(userData) : null;
+}
+
+// On écrit dans le prototype de String pour rajouter la methdode format
+// comme en Lua avec string.format
+if (!String.format) {
+    String.format = function (format) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return format.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[number] != 'undefined'
+                ? args[number]
+                : match
+                ;
+        });
+    };
 }

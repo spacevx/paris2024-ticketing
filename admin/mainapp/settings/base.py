@@ -125,5 +125,6 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 ALLOWED_HOSTS = [
     'localhost',
+    'http://127.0.0.1:5500'
     '127.0.0.1',  # Pour les tests en local
 ]

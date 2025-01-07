@@ -1,0 +1,259 @@
+@font-face {
+    font-family: 'Paris2024';
+    src: url('../fonts/Paris2024.ttf') format('truetype');
+}
+
+:root {
+    --primary-color: #1B1F3B;
+    --accent-color: #FF007C;
+    --text-color: #666666;
+    --border-color: #E0E0E0;
+    --background-light: #f8f9fa;
+    --success-color: #10B981;
+    --card-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    font-family: 'Paris2024', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--background-light);
+    min-height: 100vh;
+    color: var(--text-color);
+}
+
+.nav-header {
+    background: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.nav-logo span {
+    color: var(--accent-color);
+}
+
+.nav-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.nav-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+}
+
+.profile-btn {
+    background-color: white;
+    color: var(--primary-color);
+    border: 2px solid var(--border-color);
+}
+
+.profile-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.logout-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.logout-btn:hover {
+    background-color: var(--accent-color);
+}
+
+.dashboard {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.page-title {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+.matches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+}
+
+.match-card {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+}
+
+.match-card:hover {
+    transform: translateY(-4px);
+}
+
+.match-date {
+    color: var(--accent-color);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.match-date::before {
+    content: "🗓";
+}
+
+.match-teams {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: var(--background-light);
+    border-radius: 1rem;
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.team-flag {
+    font-size: 48px !important;
+}
+
+.team-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.team-nickname {
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    font-style: italic;
+}
+
+.vs {
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    background: white;
+    border-radius: 50px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.match-stadium {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--background-light);
+    border-radius: 0.75rem;
+}
+
+.match-stadium::before {
+    content: "🏟";
+}
+
+.buy-button {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.buy-button::before {
+    content: "🎟";
+}
+
+.buy-button:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 0, 124, 0.2);
+}
+
+.buy-button:disabled {
+    background: var(--border-color);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .dashboard {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .matches-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .match-teams {
+        flex-direction: column;
+    }
+
+    .vs {
+        margin: 1rem 0;
+    }
+}

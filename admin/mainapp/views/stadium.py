@@ -8,7 +8,6 @@ class StadiumView(APIView):
     def get(self, request, pk=None):
         stadiums = Stadium.objects.all()
         serializer = StadiumSerializer(stadiums, many=True)
-        print(len(serializer.data))
         if (len(serializer.data) <= 0):
             return Response({
                 'message': 'Aucun stade présent dans la base de données'

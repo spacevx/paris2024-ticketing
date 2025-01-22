@@ -28,6 +28,77 @@
             <!-- Les matchs seront insérés ici dynamiquement -->
         </div>
     </main>
+    
+    <div id="ticketModal" class="modal">
+        <div class="modal-content">
+            <button id="closeModal" class="modal-close">×</button>
+            <h2 class="modal-title">Achat de tickets</h2>
+            
+            <div class="modal-info">
+                <div class="modal-info-item">
+                    🗓 <span id="modalMatchDate"></span>
+                </div>
+                <div class="modal-info-item">
+                    🏟 <span id="modalStadium"></span>
+                </div>
+                <div class="modal-info-item">
+                    ⚽ <span id="modalTeams"></span>
+                </div>
+            </div>
+    
+            <form id="ticketForm" class="modal-form">
+                <div class="form-group">
+                    <label>Catégorie</label>
+                    <div class="category-options">
+                        <label class="category-option">
+                            <input type="radio" name="category" id="ticketCategory" value="platinium" checked>
+                            <div class="category-label">
+                                <span class="category-name">Platinium</span>
+                                <span class="category-price">200 €</span>
+                            </div>
+                        </label>
+                        
+                        <label class="category-option">
+                            <input type="radio" name="category" value="gold">
+                            <div class="category-label">
+                                <span class="category-name">Gold</span>
+                                <span class="category-price">150 €</span>
+                            </div>
+                        </label>
+                        
+                        <label class="category-option">
+                            <input type="radio" name="category" value="silver">
+                            <div class="category-label">
+                                <span class="category-name">Silver</span>
+                                <span class="category-price">100 €</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label for="ticketQuantity">Nombre de places</label>
+                    <input 
+                        type="number" 
+                        id="ticketQuantity" 
+                        name="quantity" 
+                        min="1" 
+                        max="10" 
+                        value="1" 
+                        required>
+                </div>
+    
+                <div class="price-summary">
+                    <span class="price-label">Total</span>
+                    <span id="totalPrice" class="price-amount">200 €</span>
+                </div>
+    
+                <button type="submit" class="modal-submit">
+                    🎟 Confirmer l'achat
+                </button>
+            </form>
+        </div>
+    </div>
 
     <script src="../js/common.js"></script>
     <script src="../js/dashboard.js"></script>

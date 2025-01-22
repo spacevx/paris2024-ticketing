@@ -1,3 +1,10 @@
+
+// https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
+function capitalizeFirstLetter(string)
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     if (!isAuthenticated()) {
         window.location.href = '../../index.html';
@@ -7,6 +14,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const matchesGrid = document.getElementById('matchesGrid');
     const logoutBtn = document.getElementById('logoutBtn');
     const profileBtn = document.getElementById('profileBtn');
+    const modal = document.getElementById('ticketModal');
+    const closeModal = document.getElementById('closeModal');
+    const ticketForm = document.getElementById('ticketForm');
+    const ticketQuantity = document.getElementById('ticketQuantity');
+    const categorySelect = document.getElementById('ticketCategory');
+    const totalPrice = document.getElementById('totalPrice');
+
+    const CATEGORY_PRICES = {
+        'platinium': 200,
+        'gold': 150,
+        'silver': 100
+    };
 
     try {
         const matches = await fetchData('events');
@@ -30,15 +49,60 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = './profile.html';
     });
 
-    async function buyTicketForMatch(matchId) {
-        try {
-            const result = await post({ event_id: matchId }, 'buy-ticket');
-            alert('Ticket acheté avec succès !');
-            // Rafraîchir la page ou mettre à jour l'interface
-            window.location.reload();
-        } catch (error) {
-            alert('Erreur lors de l\'achat du ticket');
+    closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
         }
+    });
+
+    // Mettre à jour le prix total quand la quantité ou la catégorie change
+    function updateTotalPrice() {
+        const quantity = parseInt(ticketQuantity.value);
+        const category = categorySelect.value;
+        const price = CATEGORY_PRICES[category];
+        const total = quantity * price;
+        totalPrice.textContent = `${total} €`;
+    }
+
+    ticketQuantity.addEventListener('change', updateTotalPrice);
+    categorySelect.addEventListener('change', updateTotalPrice);
+
+    async function showTicketModal(match, teams) {
+        const homeTeam = getTeamById(match.team_home, teams);
+        const awayTeam = getTeamById(match.team_away, teams);
+        
+        document.getElementById('modalMatchDate').textContent = formatDate(match.start);
+        document.getElementById('modalStadium').textContent = match.stadium;
+        document.getElementById('modalTeams').textContent = `${homeTeam.name} VS ${awayTeam.name}`;
+        
+        ticketForm.reset();
+        updateTotalPrice();
+        
+        ticketForm.onsubmit = async (e) => {
+            e.preventDefault();
+            try {
+                const userData = JSON.parse(localStorage.getItem("userData"));
+                console.log(userData.id, match.id, parseInt(ticketQuantity.value), capitalizeFirstLetter(categorySelect.value))
+                const result = await post({
+                    user: userData.id,
+                    event: match.id,
+                    ticket_count: parseInt(ticketQuantity.value),
+                    category: capitalizeFirstLetter(categorySelect.value)
+                }, 'buy-ticket');
+                
+                alert('Ticket(s) acheté(s) avec succès !');
+                modal.style.display = 'none';
+                window.location.reload();
+            } catch (error) {
+                alert('Erreur lors de l\'achat du/des ticket(s)');
+            }
+        };
+        
+        modal.style.display = 'block';
     }
 
     function formatDate(dateString) {
@@ -71,7 +135,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const awayTeam = getTeamById(match.team_away, teams);
 
         if (homeTeam && awayTeam) {
-            // Équipe domicile
             const homeTeamDiv = document.createElement('div');
             homeTeamDiv.className = 'team';
             
@@ -128,7 +191,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const button = document.createElement('button');
         button.className = 'buy-button';
         button.textContent = 'Acheter un ticket';
-        button.onclick = () => buyTicketForMatch(match.id);
+        button.onclick = () => showTicketModal(match, teams);
 
         if (!match.team_home || !match.team_away) {
             button.disabled = true;

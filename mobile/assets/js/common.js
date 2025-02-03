@@ -1,5 +1,20 @@
 let CSRF_TOKEN = null;
 
+function showNotification(message, time) {
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notificationMessage');
+    notificationMessage.textContent = message;
+    notification.classList.add('show');
+    
+    // Après 5sec on cache automatiquement la notif (5sec par défault)
+    setTimeout(hideNotification, time != null ? time : 5000);
+}
+
+function hideNotification() {
+    const notification = document.getElementById('notification');
+    notification.classList.remove('show');
+}
+
 async function getCookie(name) {
     try {
         console.log("called")
@@ -46,6 +61,7 @@ async function fetchData(...routes) {
         throw error;
     }
 }
+
 
 async function post(bodyParameters, ...routes) {
     // Construire l'URL avec les segments de route

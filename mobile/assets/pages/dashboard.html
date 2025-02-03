@@ -6,15 +6,16 @@
     <title>Paris 2024 - Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@6.6.6/css/flag-icons.min.css" />
     <link href="../css/dashboard.css" rel="stylesheet">
+    <link href="../css/notification.css" rel="stylesheet">
 </head>
 <body>
     <header class="nav-header">
         <nav class="nav-container">
             <a href="#" class="nav-logo">Paris <span>2024</span></a>
             <div class="nav-actions">
-                <button class="nav-btn profile-btn" id="profileBtn">
+               <a href="profile.html"><button class="nav-btn profile-btn" id="profileBtn">
                     👤 Mon Profil
-                </button>
+                </button></a>
                 <button class="nav-btn logout-btn" id="logoutBtn">
                     🚪 Déconnexion
                 </button>
@@ -98,6 +99,14 @@
                 </button>
             </form>
         </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <div class="notification-title">Achat confirmé !</div>
+            <div class="notification-message" id="notificationMessage"></div>
+        </div>
+        <button class="notification-close" onclick="hideNotification()">×</button>
     </div>
 
     <script src="../js/common.js"></script>

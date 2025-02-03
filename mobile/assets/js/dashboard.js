@@ -1,15 +1,13 @@
-
 // https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
-function capitalizeFirstLetter(string)
-{
+function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    if (!isAuthenticated()) {
-        window.location.href = '../../index.html';
-        return;
-    }
+    // if (!isAuthenticated()) {
+    //     window.location.href = '../../index.html';
+    //     return;
+    // }
 
     const matchesGrid = document.getElementById('matchesGrid');
     const logoutBtn = document.getElementById('logoutBtn');
@@ -18,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const closeModal = document.getElementById('closeModal');
     const ticketForm = document.getElementById('ticketForm');
     const ticketQuantity = document.getElementById('ticketQuantity');
-    const categorySelect = document.getElementById('ticketCategory');
+    const categoryInputs  = document.getElementById('input[name="category"]');
     const totalPrice = document.getElementById('totalPrice');
 
     const CATEGORY_PRICES = {
@@ -30,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const matches = await fetchData('events');
         const teams = await fetchData('teams');
-        
+
         matches.forEach(match => {
             const matchCard = createMatchCard(match, teams);
             matchesGrid.appendChild(matchCard);
@@ -59,49 +57,60 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Mettre à jour le prix total quand la quantité ou la catégorie change
     function updateTotalPrice() {
         const quantity = parseInt(ticketQuantity.value);
-        const category = categorySelect.value;
-        const price = CATEGORY_PRICES[category];
+        const selectedCategory = document.querySelector('input[name="category"]:checked').value;
+        const price = CATEGORY_PRICES[selectedCategory];
         const total = quantity * price;
         totalPrice.textContent = `${total} €`;
     }
 
+    categoryInputs.forEach(input => {
+        input.addEventListener('change', updateTotalPrice);
+    })
+
     ticketQuantity.addEventListener('change', updateTotalPrice);
-    categorySelect.addEventListener('change', updateTotalPrice);
 
     async function showTicketModal(match, teams) {
         const homeTeam = getTeamById(match.team_home, teams);
         const awayTeam = getTeamById(match.team_away, teams);
-        
+
         document.getElementById('modalMatchDate').textContent = formatDate(match.start);
         document.getElementById('modalStadium').textContent = match.stadium;
         document.getElementById('modalTeams').textContent = `${homeTeam.name} VS ${awayTeam.name}`;
-        
+
         ticketForm.reset();
         updateTotalPrice();
-        
+
         ticketForm.onsubmit = async (e) => {
             e.preventDefault();
             try {
                 const userData = JSON.parse(localStorage.getItem("userData"));
-                console.log(userData.id, match.id, parseInt(ticketQuantity.value), capitalizeFirstLetter(categorySelect.value))
+                const quantity = parseInt(ticketQuantity.value);
+                const category = capitalizeFirstLetter(document.querySelector('input[name="category"]:checked').value);
+
                 const result = await post({
                     user: userData.id,
                     event: match.id,
-                    ticket_count: parseInt(ticketQuantity.value),
-                    category: capitalizeFirstLetter(categorySelect.value)
+                    ticket_count: quantity,
+                    category: category
                 }, 'buy-ticket');
-                
-                alert('Ticket(s) acheté(s) avec succès !');
+
+                const message = `Vous avez acheté ${quantity} billet${quantity > 1 ? 's' : ''} en catégorie ${category} pour le match ${document.getElementById('modalTeams').textContent} le ${document.getElementById('modalMatchDate').textContent}`;
+
+                // On ferme le menu pour acheter les tickets
                 modal.style.display = 'none';
-                window.location.reload();
+
+                setTimeout(() => {
+                    showNotification(message, 7000);
+                }, 1000);
+
             } catch (error) {
-                alert('Erreur lors de l\'achat du/des ticket(s)');
+                console.log(error);
+                showNotification('Une erreur est survenue lors de l\'achat des billets', 3000);
             }
         };
-        
+
         modal.style.display = 'block';
     }
 
@@ -137,10 +146,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (homeTeam && awayTeam) {
             const homeTeamDiv = document.createElement('div');
             homeTeamDiv.className = 'team';
-            
+
             const homeFlag = document.createElement('span');
             homeFlag.className = `fi fi-${homeTeam.code.toLowerCase()} team-flag`;
-            
+
             const homeName = document.createElement('span');
             homeName.className = 'team-name';
             homeName.textContent = homeTeam.name;
@@ -161,10 +170,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Équipe extérieure
             const awayTeamDiv = document.createElement('div');
             awayTeamDiv.className = 'team';
-            
+
             const awayFlag = document.createElement('span');
             awayFlag.className = `fi fi-${awayTeam.code.toLowerCase()} team-flag`;
-            
+
             const awayName = document.createElement('span');
             awayName.className = 'team-name';
             awayName.textContent = awayTeam.name;
@@ -190,11 +199,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const button = document.createElement('button');
         button.className = 'buy-button';
-        button.textContent = 'Acheter un ticket';
-        button.onclick = () => showTicketModal(match, teams);
+        if (isAuthenticated()) {
+            button.textContent = 'Acheter un ticket';
+            button.onclick = () => showTicketModal(match, teams);
 
-        if (!match.team_home || !match.team_away) {
-            button.disabled = true;
+            if (!match.team_home || !match.team_away) {
+                button.disabled = true;
+            }
         }
 
         div.appendChild(date);

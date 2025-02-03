@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paris 2024 - Mes Tickets</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@6.6.6/css/flag-icons.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="../css/profile.css" rel="stylesheet">
+</head>
+<body>
+    <header class="nav-header">
+        <nav class="nav-container">
+            <a href="./dashboard.html" class="back-button">
+                ← Retour
+            </a>
+            <a href="#" class="nav-logo">Paris <span>2024</span></a>
+            <div class="nav-actions">
+                <button class="nav-btn logout-btn" id="logoutBtn">
+                    🚪 Déconnexion
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="profile">
+        <h1 class="page-title">Mes Tickets</h1>
+        <div class="tickets-grid" id="ticketsGrid">
+            <!-- Les tickets seront insérés ici dynamiquement -->
+        </div>
+    </main>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html>

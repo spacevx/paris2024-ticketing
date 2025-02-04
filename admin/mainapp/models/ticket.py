@@ -12,7 +12,6 @@ class Ticket(models.Model):
     ]
     
     user = models.PositiveIntegerField()
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     event = models.ForeignKey("Event", on_delete=models.PROTECT)
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default=SILVER)
     price = models.DecimalField(max_digits=5, decimal_places=2)
@@ -20,3 +19,26 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f"{self.event} - {self.category} - {self.price} €"
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+        current_tickets = SingleTicket.objects.filter(parent_ticket=self).count()
+        
+        if current_tickets < self.ticket_count:
+            tickets_to_create = self.ticket_count - current_tickets
+            SingleTicket.objects.bulk_create([
+                SingleTicket(parent_ticket=self)
+                for _ in range(tickets_to_create)
+            ])
+        elif current_tickets > self.ticket_count:
+            tickets_to_remove = current_tickets - self.ticket_count
+            SingleTicket.objects.filter(parent_ticket=self).order_by('-id')[:tickets_to_remove].delete()
+
+class SingleTicket(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    parent_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name='single_tickets')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Ticket {self.uuid} - {self.parent_ticket.event}"

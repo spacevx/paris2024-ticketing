@@ -1,4 +1,82 @@
+
+
 document.addEventListener('DOMContentLoaded', async () => {
+    function showQRModal(ticket) {
+        const modalBody = modal.querySelector('.modal-body');
+        const qrContainer = document.getElementById('qrCodeContainer');
+        
+        modalBody.innerHTML = '';
+        qrContainer.innerHTML = '';
+        
+        const qrWrapper = document.createElement('div');
+        qrWrapper.id = 'qrCodeContainer';
+        
+        if (ticket.ticket_count > 1) {
+            const sliderContainer = document.createElement('div');
+            sliderContainer.className = 'qr-slider';
+            
+            const prevButton = document.createElement('button');
+            prevButton.className = 'slider-control prev';
+            prevButton.setAttribute('aria-label', 'Billet précédent');
+            prevButton.innerHTML = '←';
+            
+            const nextButton = document.createElement('button');
+            nextButton.className = 'slider-control next';
+            nextButton.setAttribute('aria-label', 'Billet suivant');
+            nextButton.innerHTML = '→';
+            
+            const counter = document.createElement('div');
+            counter.className = 'slider-counter';
+            
+            sliderContainer.appendChild(prevButton);
+            sliderContainer.appendChild(qrWrapper);
+            sliderContainer.appendChild(nextButton);
+            sliderContainer.appendChild(counter);
+            
+            let currentIndex = 0;
+            
+            function updateQRCode() {
+                qrWrapper.innerHTML = '';
+                counter.textContent = `${currentIndex + 1}/${ticket.ticket_count}`;
+                
+                new QRCode(qrWrapper, {
+                    text: `${ticket.uuid}-${currentIndex + 1}`,
+                    width: 256,
+                    height: 256,
+                    colorDark: "#1B1F3B",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
+            
+            prevButton.onclick = () => {
+                currentIndex = (currentIndex - 1 + ticket.ticket_count) % ticket.ticket_count;
+                updateQRCode();
+            };
+            
+            nextButton.onclick = () => {
+                currentIndex = (currentIndex + 1) % ticket.ticket_count;
+                updateQRCode();
+            };
+            
+            modalBody.appendChild(sliderContainer);
+            updateQRCode();
+        } else {
+            modalBody.appendChild(qrWrapper);
+            
+            new QRCode(qrWrapper, {
+                text: ticket.uuid,
+                width: 256,
+                height: 256,
+                colorDark: "#1B1F3B",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+        
+        modal.style.display = 'flex';
+    }
+    
     if (!isAuthenticated()) {
         window.location.href = '../../index.html';
         return;
@@ -7,7 +85,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const ticketsGrid = document.getElementById('ticketsGrid');
     const logoutBtn = document.getElementById('logoutBtn');
 
-    // Création de la modal
     const modal = document.createElement('div');
     modal.className = 'modal';
     modal.innerHTML = `
@@ -23,7 +100,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     `;
     document.body.appendChild(modal);
 
-    // Gestionnaire pour fermer la modal
     modal.addEventListener('click', (e) => {
         if (e.target === modal || e.target.classList.contains('modal-close')) {
             modal.style.display = 'none';
@@ -58,6 +134,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = '../../index.html';
     });
 
+    
+
     function createTicketCard(ticket, event, teams, index) {
         const div = document.createElement('div');
         div.className = 'ticket-card';
@@ -67,8 +145,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         header.className = 'ticket-header';
 
         const category = document.createElement('span');
-        category.className = `category ${ticket.category.toLowerCase()}`;
+        console.log("Avant conversion:", ticket.category);
+        console.log("Après conversion:", ticket.category.toLowerCase());
+        const categoryClass = ticket.category.toLowerCase();
+        category.className = `category ${categoryClass}`;
+        console.log("Classe finale:", category.className);
         category.textContent = ticket.category;
+
+        const computedStyle = window.getComputedStyle(category);
+        console.log("Style appliqué:", {
+            background: computedStyle.background,
+            color: computedStyle.color
+        });
+        
         
         header.appendChild(category);
 
@@ -129,19 +218,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         `;
 
         qrButton.addEventListener('click', () => {
-            const qrContainer = document.getElementById('qrCodeContainer');
-            qrContainer.innerHTML = ''; // Clear previous QR code
-            
-            // Génération du QR code
-            new QRCode(qrContainer, {
-                text: ticket.uuid,
-                width: 256,
-                height: 256,
-                colorDark: "#1B1F3B",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-
+            showQRModal(ticket);
             modal.style.display = 'flex';
         });
 

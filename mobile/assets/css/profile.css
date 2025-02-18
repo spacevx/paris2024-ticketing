@@ -670,3 +670,10 @@ body {
         border: 1px solid ButtonText;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    .team-flag.placeholder {
+        background: #262626;
+        color: var(--text-light);
+    }
+}

@@ -185,6 +185,32 @@ document.addEventListener('DOMContentLoaded', async () => {
                     ${awayTeam.nickname ? `<span class="team-nickname">${awayTeam.nickname}</span>` : ''}
                 </div>
             `;
+        } else {
+            const createPlaceholderTeam = () => {
+                const teamDiv = document.createElement('div');
+                teamDiv.className = 'team';
+    
+                const placeholderFlag = document.createElement('span');
+                placeholderFlag.className = 'team-flag placeholder';
+                placeholderFlag.innerHTML = '?';
+    
+                const placeholderName = document.createElement('span');
+                placeholderName.className = 'team-name';
+                placeholderName.textContent = 'À déterminer';
+    
+                teamDiv.appendChild(placeholderFlag);
+                teamDiv.appendChild(placeholderName);
+    
+                return teamDiv;
+            };
+    
+            const vs = document.createElement('span');
+            vs.className = 'vs';
+            vs.textContent = 'VS';
+    
+            teamsDiv.appendChild(createPlaceholderTeam());
+            teamsDiv.appendChild(vs);
+            teamsDiv.appendChild(createPlaceholderTeam());
         }
 
         const details = document.createElement('div');

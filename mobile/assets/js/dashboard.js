@@ -1,9 +1,16 @@
-// https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
+let STADIUMS; // les stades sont statiques donc on va seulement les charger une fois
+
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function getStadiumName(stadiumId) {
+    const stadium = STADIUMS.find(stadium => stadium.id === stadiumId);
+    return stadium ? stadium.name : "Stade non trouvé";
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+    // On peut aussi accéder à la page sans compte
     // if (!isAuthenticated()) {
     //     window.location.href = '../../index.html';
     //     return;
@@ -16,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const closeModal = document.getElementById('closeModal');
     const ticketForm = document.getElementById('ticketForm');
     const ticketQuantity = document.getElementById('ticketQuantity');
-    const categoryInputs  = document.getElementById('input[name="category"]');
+    const categoryInputs = document.querySelectorAll('input[name="category"]');
     const totalPrice = document.getElementById('totalPrice');
 
     const CATEGORY_PRICES = {
@@ -26,6 +33,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     try {
+        STADIUMS = await fetchData("stadiums");
+
         const matches = await fetchData('events');
         const teams = await fetchData('teams');
 
@@ -33,9 +42,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             const matchCard = createMatchCard(match, teams);
             matchesGrid.appendChild(matchCard);
         });
-
     } catch (error) {
         console.error('Erreur lors du chargement des matchs:', error);
+        showNotification('Erreur lors du chargement des matchs', 3000);
     }
 
     logoutBtn.addEventListener('click', () => {
@@ -60,24 +69,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     function updateTotalPrice() {
         const quantity = parseInt(ticketQuantity.value);
         const selectedCategory = document.querySelector('input[name="category"]:checked').value;
-        const price = CATEGORY_PRICES[selectedCategory];
+        const price = CATEGORY_PRICES[selectedCategory.toLowerCase()];
         const total = quantity * price;
         totalPrice.textContent = `${total} €`;
     }
 
     categoryInputs.forEach(input => {
         input.addEventListener('change', updateTotalPrice);
-    })
+    });
 
     ticketQuantity.addEventListener('change', updateTotalPrice);
 
     async function showTicketModal(match, teams) {
+        console.log("oooo", match);
         const homeTeam = getTeamById(match.team_home, teams);
         const awayTeam = getTeamById(match.team_away, teams);
 
         document.getElementById('modalMatchDate').textContent = formatDate(match.start);
-        document.getElementById('modalStadium').textContent = match.stadium;
-        document.getElementById('modalTeams').textContent = `${homeTeam.name} VS ${awayTeam.name}`;
+        document.getElementById('modalStadium').textContent = getStadiumName(match.stadium);
+        
+        const homeTeamName = homeTeam ? homeTeam.name : "À déterminer";
+        const awayTeamName = awayTeam ? awayTeam.name : "À déterminer";
+        document.getElementById('modalTeams').textContent = `${homeTeamName} VS ${awayTeamName}`;
 
         ticketForm.reset();
         updateTotalPrice();
@@ -97,8 +110,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }, 'buy-ticket');
 
                 const message = `Vous avez acheté ${quantity} billet${quantity > 1 ? 's' : ''} en catégorie ${category} pour le match ${document.getElementById('modalTeams').textContent} le ${document.getElementById('modalMatchDate').textContent}`;
-
-                // On ferme le menu pour acheter les tickets
                 modal.style.display = 'none';
 
                 setTimeout(() => {
@@ -106,27 +117,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }, 1000);
 
             } catch (error) {
-                console.log(error);
+                console.error('Erreur lors de l\'achat:', error);
                 showNotification('Une erreur est survenue lors de l\'achat des billets', 3000);
             }
         };
 
         modal.style.display = 'block';
-    }
-
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        return new Intl.DateTimeFormat('fr-FR', {
-            day: '2-digit',
-            month: 'long',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        }).format(date);
-    }
-
-    function getTeamById(id, teams) {
-        return teams.find(team => team.id === id);
     }
 
     function createMatchCard(match, teams) {
@@ -162,12 +158,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             homeTeamDiv.appendChild(homeName);
             if (homeTeam.nickname) homeTeamDiv.appendChild(homeNickname);
 
-            // VS
             const vs = document.createElement('span');
             vs.className = 'vs';
             vs.textContent = 'VS';
 
-            // Équipe extérieure
             const awayTeamDiv = document.createElement('div');
             awayTeamDiv.className = 'team';
 
@@ -190,22 +184,43 @@ document.addEventListener('DOMContentLoaded', async () => {
             teamsDiv.appendChild(vs);
             teamsDiv.appendChild(awayTeamDiv);
         } else {
-            teamsDiv.textContent = 'À déterminer';
+            const createPlaceholderTeam = () => {
+                const teamDiv = document.createElement('div');
+                teamDiv.className = 'team';
+
+                const placeholderFlag = document.createElement('span');
+                placeholderFlag.className = 'team-flag placeholder';
+                placeholderFlag.innerHTML = '?';
+
+                const placeholderName = document.createElement('span');
+                placeholderName.className = 'team-name';
+                placeholderName.textContent = 'À déterminer';
+
+                teamDiv.appendChild(placeholderFlag);
+                teamDiv.appendChild(placeholderName);
+
+                return teamDiv;
+            };
+
+            const vs = document.createElement('span');
+            vs.className = 'vs';
+            vs.textContent = 'VS';
+
+            teamsDiv.appendChild(createPlaceholderTeam());
+            teamsDiv.appendChild(vs);
+            teamsDiv.appendChild(createPlaceholderTeam());
         }
 
         const stadium = document.createElement('div');
         stadium.className = 'match-stadium';
-        stadium.textContent = match.stadium;
+        stadium.textContent = getStadiumName(match.stadium);
 
         const button = document.createElement('button');
-        button.className = 'buy-button';
+
         if (isAuthenticated()) {
+            button.className = 'buy-button';
             button.textContent = 'Acheter un ticket';
             button.onclick = () => showTicketModal(match, teams);
-
-            if (!match.team_home || !match.team_away) {
-                button.disabled = true;
-            }
         }
 
         div.appendChild(date);
@@ -214,5 +229,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         div.appendChild(button);
 
         return div;
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat('fr-FR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }).format(date);
+    }
+
+    function getTeamById(id, teams) {
+        return teams.find(team => team.id === id);
     }
 });

@@ -469,6 +469,19 @@ body {
     box-shadow: 0 4px 12px rgba(255, 0, 124, 0.25);
 }
 
+.team-flag.placeholder {
+    width: 48px;
+    height: 48px;
+    background: var(--background-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--text-light);
+    border-radius: var(--radius-sm);
+}
+
+
 @media (max-width: 768px) {
     .modal-content {
         margin: 1rem auto;

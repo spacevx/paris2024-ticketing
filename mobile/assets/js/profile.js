@@ -1,6 +1,10 @@
-
-
 document.addEventListener('DOMContentLoaded', async () => {
+    function getStadiumName(stadiumId) {
+        console.log(window.APP.STADIUMS)
+        const stadium = window.APP.STADIUMS.find(stadium => stadium.id === stadiumId);
+        return stadium ? stadium.name : "Stade non trouvé";
+    }
+
     function showQRModal(ticket) {
         const modalBody = modal.querySelector('.modal-body');
         const qrContainer = document.getElementById('qrCodeContainer');
@@ -213,6 +217,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             teamsDiv.appendChild(createPlaceholderTeam());
         }
 
+        const stadium = document.createElement('div');
+        stadium.className = 'match-stadium';
+        const stadiumName = event.stadium ? getStadiumName(event.stadium) : "Stade non défini";
+        stadium.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 20h20"/>
+            <path d="M12 2L2 8l10 6 10-6-10-6z"/>
+            <path d="M4 14l8 6 8-6"/>
+        </svg> ${stadiumName}`;
+
         const details = document.createElement('div');
         details.className = 'ticket-details';
 
@@ -254,6 +267,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         div.appendChild(header);
         div.appendChild(date);
         div.appendChild(teamsDiv);
+        div.appendChild(stadium);
         div.appendChild(details);
 
         return div;

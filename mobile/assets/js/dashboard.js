@@ -1,11 +1,9 @@
-let STADIUMS; // les stades sont statiques donc on va seulement les charger une fois
-
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function getStadiumName(stadiumId) {
-    const stadium = STADIUMS.find(stadium => stadium.id === stadiumId);
+    const stadium = window.APP.STADIUMS.find(stadium => stadium.id === stadiumId);
     return stadium ? stadium.name : "Stade non trouvé";
 }
 
@@ -33,8 +31,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     try {
-        STADIUMS = await fetchData("stadiums");
-
         const matches = await fetchData('events');
         const teams = await fetchData('teams');
 

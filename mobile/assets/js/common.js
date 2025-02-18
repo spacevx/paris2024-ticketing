@@ -1,5 +1,13 @@
 let CSRF_TOKEN = null;
 
+window.APP = window.APP || {};
+
+window.APP.STADIUMS = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+    window.APP.STADIUMS = await fetchData("stadiums");
+});
+
 function showNotification(message, time) {
     const notification = document.getElementById('notification');
     const notificationMessage = document.getElementById('notificationMessage');

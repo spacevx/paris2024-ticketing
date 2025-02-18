@@ -677,3 +677,24 @@ body {
         color: var(--text-light);
     }
 }
+
+.match-stadium {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--text-light);
+    font-size: 0.938rem;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.match-stadium svg {
+    color: var(--accent-color);
+}
+
+@media (prefers-color-scheme: dark) {
+    .match-stadium {
+        border-bottom-color: #2a2a2a;
+    }
+}

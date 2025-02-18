@@ -119,10 +119,8 @@ function getUserData() {
 
 // Fonction pour les requêtes authentifiées
 async function authenticatedFetch(url, options = {}) {
-    const username = localStorage.getItem('username');
-
-    if (!username) {
-        throw new Error('Non authentifié');
+    if (!isAuthenticated()) {
+        throw new Error("Impossible d'utiliser cette requête sans compte.");
     }
 
     try {

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paris 2024 - Connexion</title>
+    <link href="../css/login.css" rel="stylesheet">
+</head>
+<body>
+    <div class="olympics-rings">
+        <!-- SVG des anneaux olympiques -->
+        <svg width="156" height="75" viewBox="0 0 156 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="25" cy="25" r="22.5" stroke="white" stroke-width="5"/>
+            <circle cx="131" cy="25" r="22.5" stroke="white" stroke-width="5"/>
+            <circle cx="104" cy="50" r="22.5" stroke="white" stroke-width="5"/>
+            <circle cx="78" cy="25" r="22.5" stroke="white" stroke-width="5"/>
+            <circle cx="51" cy="50" r="22.5" stroke="white" stroke-width="5"/>
+        </svg>
+    </div>
+    
+    <div class="login-container">
+        <div class="logo">
+            <h1>PARIS 2024</h1>
+            <div class="tagline">OUVRONS GRAND LES JEUX</div>
+        </div>
+
+        <form id="loginForm" novalidate>
+            <div class="error-message" id="errorMessage"></div>
+
+            <div class="form-group">
+                <input 
+                    type="email" 
+                    id="email" 
+                    class="input-field" 
+                    placeholder="Adresse email"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="input-field" 
+                    placeholder="Mot de passe"
+                    required
+                >
+                <button type="button" class="password-toggle" id="passwordToggle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5c-7.333 0-12 9-12 9s4.667 9 12 9 12-9 12-9-4.667-9-12-9Z"/>
+                        <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="remember-forgot">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    <span>Se souvenir de moi</span>
+                </label>
+                <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span>Se connecter</span>
+                <div class="spinner" id="spinner"></div>
+            </button>
+
+            <div class="register-link">
+                Pas encore de compte ? 
+                <a href="../pages/register.html">Créer un compte</a>
+            </div>
+        </form>
+    </div>
+    
+	<script src="../js/common.js"></script>
+	<script src="../js/login.js"></script>
+</body>
+</html>

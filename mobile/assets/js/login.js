@@ -14,14 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
         passwordToggle.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
     });
 
-    // Event submit
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Reset error message
         errorMessage.style.display = 'none';
         
-        // Validation
         if (!emailInput.value || !passwordInput.value) {
             showError('Veuillez remplir tous les champs');
             return;
@@ -32,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Show loading state
         submitBtn.disabled = true;
         spinner.style.display = 'inline-block';
 
@@ -45,15 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await post(loginData, "login");
             console.log('Login successful:', data);
             
-            const username = await data.user.username;
-            if (username) {
+            if (data.user && data.user.username) {
                 localStorage.setItem('username', data.user);
-                if (data.user) {
-                    localStorage.setItem('userData', JSON.stringify(data.user));
-                }
-                
-                // On redirige l'utilisateur
-                window.location.href = '/mobile/assets/pages/dashboard.html';
+                localStorage.setItem('userData', JSON.stringify(data.user));                
+                window.location.href = '../../index.html';
             } else {
                 throw new Error('Session non créée');
             }

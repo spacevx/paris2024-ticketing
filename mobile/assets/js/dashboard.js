@@ -8,13 +8,33 @@ function getStadiumName(stadiumId) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // On peut aussi accéder à la page sans compte
-    // if (!isAuthenticated()) {
-    //     window.location.href = '../../index.html';
-    //     return;
-    // }
-
+    const userActions = document.getElementById('userActions');
+    const guestActions = document.getElementById('guestActions');
     const matchesGrid = document.getElementById('matchesGrid');
+
+    if (isAuthenticated()) {
+        userActions.style.display = 'flex';
+        guestActions.style.display = 'none';
+    } else {
+        userActions.style.display = 'none';
+        guestActions.style.display = 'flex';
+        
+        const loginBanner = document.createElement('div');
+        loginBanner.className = 'login-banner';
+        loginBanner.innerHTML = `
+            <div class="login-banner-content">
+                <div class="login-banner-text">
+                    Connectez-vous pour acheter des billets et profiter de l'expérience complète !
+                </div>
+                <div class="login-banner-buttons">
+                    <a href="./assets/pages/login.html" class="nav-btn">Se connecter</a>
+                    <a href="./assets/pages/register.html" class="nav-btn">S'inscrire</a>
+                </div>
+            </div>
+        `;
+        matchesGrid.parentNode.insertBefore(loginBanner, matchesGrid);
+    }
+
     const logoutBtn = document.getElementById('logoutBtn');
     const profileBtn = document.getElementById('profileBtn');
     const modal = document.getElementById('ticketModal');
@@ -45,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     logoutBtn.addEventListener('click', () => {
         clearSession();
-        window.location.href = '../../index.html';
+        window.location.href = './index.html';
     });
 
     profileBtn.addEventListener('click', () => {

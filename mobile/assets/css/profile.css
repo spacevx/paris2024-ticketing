@@ -486,88 +486,6 @@ body {
     }
 }
 
-@media (max-width: 768px) {
-    :root {
-        --space-xl: 1.5rem;
-        --space-lg: 1.25rem;
-        --space-md: 0.75rem;
-    }
-
-    .nav-container {
-        padding: var(--space-md) var(--space-lg);
-        gap: var(--space-md);
-    }
-
-    .page-title {
-        font-size: 1.75rem;
-        margin-bottom: var(--space-xl);
-    }
-
-    .tickets-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-lg);
-    }
-
-    .ticket-card {
-        padding: var(--space-lg);
-    }
-
-    .team-flag {
-        font-size: 2.5rem;
-    }
-
-    .modal-content {
-        width: 100%;
-    }
-    
-    .modal-header {
-        padding: var(--space-md) var(--space-lg);
-    }
-    
-    .modal-body {
-        padding: var(--space-lg);
-    }
-    
-    #qrCodeContainer {
-        width: 240px;
-        height: 240px;
-        padding: var(--space-md);
-    }
-    
-    #qrCodeContainer img {
-        width: 208px;
-        height: 208px;
-    }
-    
-    .slider-control {
-        width: 36px;
-        height: 36px;
-        font-size: 1rem;
-    }
-
-    .qr-button {
-        padding: var(--space-sm) var(--space-md);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
-
-    .ticket-card,
-    .ticket-card:hover,
-    .modal-content,
-    .qr-button:hover,
-    .back-button:hover::before,
-    .modal-close:hover {
-        transform: none;
-    }
-}
-
 :focus-visible {
     outline: 2px solid var(--accent-color);
     outline-offset: 2px;
@@ -581,6 +499,21 @@ body {
     outline: 2px solid var(--accent-color);
     outline-offset: 4px;
     border-radius: var(--radius-sm);
+}
+
+.match-stadium {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--text-light);
+    font-size: 0.938rem;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.match-stadium svg {
+    color: var(--accent-color);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -678,23 +611,90 @@ body {
     }
 }
 
-.match-stadium {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    color: var(--text-light);
-    font-size: 0.938rem;
-    margin-bottom: var(--space-lg);
-    padding-bottom: var(--space-md);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.match-stadium svg {
-    color: var(--accent-color);
-}
-
 @media (prefers-color-scheme: dark) {
     .match-stadium {
         border-bottom-color: #2a2a2a;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --space-xl: 1.5rem;
+        --space-lg: 1.25rem;
+        --space-md: 0.75rem;
+    }
+
+    .nav-container {
+        padding: var(--space-md) var(--space-lg);
+        gap: var(--space-md);
+    }
+
+    .page-title {
+        font-size: 1.75rem;
+        margin-bottom: var(--space-xl);
+    }
+
+    .tickets-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+
+    .ticket-card {
+        padding: var(--space-lg);
+    }
+
+    .team-flag {
+        font-size: 2.5rem;
+    }
+
+    .modal-content {
+        width: 100%;
+    }
+    
+    .modal-header {
+        padding: var(--space-md) var(--space-lg);
+    }
+    
+    .modal-body {
+        padding: var(--space-lg);
+    }
+    
+    #qrCodeContainer {
+        width: 240px;
+        height: 240px;
+        padding: var(--space-md);
+    }
+    
+    #qrCodeContainer img {
+        width: 208px;
+        height: 208px;
+    }
+    
+    .slider-control {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .qr-button {
+        padding: var(--space-sm) var(--space-md);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .ticket-card,
+    .ticket-card:hover,
+    .modal-content,
+    .qr-button:hover,
+    .back-button:hover::before,
+    .modal-close:hover {
+        transform: none;
     }
 }

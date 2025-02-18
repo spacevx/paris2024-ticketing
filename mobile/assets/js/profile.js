@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     logoutBtn.addEventListener('click', () => {
         clearSession();
-        window.location.href = '../../index.html';
+        window.location.href = '../index.html';
     });
 
     

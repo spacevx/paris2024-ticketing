@@ -229,35 +229,6 @@ body {
     box-shadow: none;
 }
 
-@media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .nav-actions {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .dashboard {
-        padding: 1rem;
-        margin: 1rem auto;
-    }
-
-    .matches-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .match-teams {
-        flex-direction: column;
-    }
-
-    .vs {
-        margin: 1rem 0;
-    }
-}
-
 .modal {
     display: none;
     position: fixed;
@@ -481,6 +452,141 @@ body {
     border-radius: var(--radius-sm);
 }
 
+.guest-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.login-btn, .register-btn {
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.login-btn {
+    background-color: white;
+    color: var(--primary-color);
+    border: 2px solid var(--border-color);
+}
+
+.login-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.register-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+}
+
+.register-btn:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(27, 31, 59, 0.2);
+}
+
+.login-banner {
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.login-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.login-banner-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.login-banner-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.login-banner .nav-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    background: white;
+    color: var(--primary-color);
+}
+
+.login-banner .nav-btn:hover {
+    background: var(--background-light);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .login-banner-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .login-banner-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .dashboard {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .matches-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .match-teams {
+        flex-direction: column;
+    }
+
+    .vs {
+        margin: 1rem 0;
+    }
+}
 
 @media (max-width: 768px) {
     .modal-content {

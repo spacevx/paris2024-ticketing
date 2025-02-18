@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
         number: str => /[0-9]/.test(str)
     };
 
-    // Validation en temps réel du mot de passe
     password.addEventListener('input', () => {
         const value = password.value;
         Object.keys(requirements).forEach(req => {
@@ -23,7 +22,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const [firstName, lastName] = document.getElementById('name').value.split(' ');
+        const nameValue = document.getElementById('name').value;
+        const nameParts = nameValue.trim().split(' ');
+        
+        if (nameParts.length < 2) {
+            showNotification("Il faut bien mettre un prénom et un nom dans le nom complet.", 3000);
+            return;
+        }
+        const [firstName, ...lastNameParts] = nameParts;
+        const lastName = lastNameParts.join(' ');
+
+        if (!firstName || !lastName) {
+            showNotification("Il faut bien mettre un prénom et un nom dans le nom complet.", 3000);
+            return;
+        }
         
         const randomNumbers = Math.floor(Math.random() * 10000);
         
@@ -48,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Vérification des exigences du mot de passe
         const isPasswordValid = Object.keys(requirements).every(req => 
             requirements[req](formData.password)
         );
@@ -62,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await post(formData, 'register');
             if (data.user.email) {
                 console.log("OK => OK")
-                window.location.href = '../../../mobile/index.html';
+                window.location.href = '../pages/login.html';
             } else {
                 throw new Error('Erreur lors de l\'inscription');
             }

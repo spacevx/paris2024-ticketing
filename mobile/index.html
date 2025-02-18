@@ -3,77 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paris 2024 - Connexion</title>
-    <link href="assets/css/login.css" rel="stylesheet">
+    <title>Paris 2024 - Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@6.6.6/css/flag-icons.min.css" />
+    <link href="./assets/css/dashboard.css" rel="stylesheet">
+    <link href="./assets/css/notification.css" rel="stylesheet">
 </head>
 <body>
-    <div class="olympics-rings">
-        <!-- SVG des anneaux olympiques -->
-        <svg width="156" height="75" viewBox="0 0 156 75" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="25" cy="25" r="22.5" stroke="white" stroke-width="5"/>
-            <circle cx="131" cy="25" r="22.5" stroke="white" stroke-width="5"/>
-            <circle cx="104" cy="50" r="22.5" stroke="white" stroke-width="5"/>
-            <circle cx="78" cy="25" r="22.5" stroke="white" stroke-width="5"/>
-            <circle cx="51" cy="50" r="22.5" stroke="white" stroke-width="5"/>
-        </svg>
-    </div>
-    
-    <div class="login-container">
-        <div class="logo">
-            <h1>PARIS 2024</h1>
-            <div class="tagline">OUVRONS GRAND LES JEUX</div>
+    <header class="nav-header">
+        <nav class="nav-container">
+            <a href="#" class="nav-logo">Paris <span>2024</span></a>
+            <div class="nav-actions">
+                <!-- Quand la personne n'est pas login -->
+                <div class="guest-actions" id="guestActions">
+                    <a href="./assets/pages/login.html" class="nav-btn login-btn">
+                        🔑 Connexion
+                    </a>
+                    <a href="./assets/pages/register.html" class="nav-btn register-btn">
+                        ✨ Inscription
+                    </a>
+                </div>
+                
+                <!-- Quand la personne est login -->
+                <div class="user-actions" id="userActions" style="display: none;">
+                    <a href="./assets/pages/profile.html">
+                        <button class="nav-btn profile-btn" id="profileBtn">
+                            👤 Mon Profil
+                        </button>
+                    </a>
+                    <button class="nav-btn logout-btn" id="logoutBtn">
+                        🚪 Déconnexion
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard">
+        <h1 class="page-title">Matchs à venir</h1>
+        <div class="matches-grid" id="matchesGrid">
+            <!-- Les matchs seront insérés ici dynamiquement -->
         </div>
-
-        <form id="loginForm" novalidate>
-            <div class="error-message" id="errorMessage"></div>
-
-            <div class="form-group">
-                <input 
-                    type="email" 
-                    id="email" 
-                    class="input-field" 
-                    placeholder="Adresse email"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <input 
-                    type="password" 
-                    id="password" 
-                    class="input-field" 
-                    placeholder="Mot de passe"
-                    required
-                >
-                <button type="button" class="password-toggle" id="passwordToggle">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 5c-7.333 0-12 9-12 9s4.667 9 12 9 12-9 12-9-4.667-9-12-9Z"/>
-                        <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="remember-forgot">
-                <label class="remember-me">
-                    <input type="checkbox" id="rememberMe">
-                    <span>Se souvenir de moi</span>
-                </label>
-                <a href="#" class="forgot-password">Mot de passe oublié ?</a>
-            </div>
-
-            <button type="submit" class="submit-btn" id="submitBtn">
-                <span>Se connecter</span>
-                <div class="spinner" id="spinner"></div>
-            </button>
-
-            <div class="register-link">
-                Pas encore de compte ? 
-                <a href="assets/pages/register.html">Créer un compte</a>
-            </div>
-        </form>
-    </div>
+    </main>
     
-	<script src="assets/js/common.js"></script>
-	<script src="assets/js/login.js"></script>
+    <div id="ticketModal" class="modal">
+        <div class="modal-content">
+            <button id="closeModal" class="modal-close">×</button>
+            <h2 class="modal-title">Achat de tickets</h2>
+            
+            <div class="modal-info">
+                <div class="modal-info-item">
+                    🗓 <span id="modalMatchDate"></span>
+                </div>
+                <div class="modal-info-item">
+                    🏟 <span id="modalStadium"></span>
+                </div>
+                <div class="modal-info-item">
+                    ⚽ <span id="modalTeams"></span>
+                </div>
+            </div>
+    
+            <form id="ticketForm" class="modal-form">
+                <div class="form-group">
+                    <label>Catégorie</label>
+                    <div class="category-options">
+                        <label class="category-option">
+                            <input type="radio" name="category" id="ticketCategory" value="platinium" checked>
+                            <div class="category-label">
+                                <span class="category-name">Platinium</span>
+                                <span class="category-price">200 €</span>
+                            </div>
+                        </label>
+                        
+                        <label class="category-option">
+                            <input type="radio" name="category" value="gold">
+                            <div class="category-label">
+                                <span class="category-name">Gold</span>
+                                <span class="category-price">150 €</span>
+                            </div>
+                        </label>
+                        
+                        <label class="category-option">
+                            <input type="radio" name="category" value="silver">
+                            <div class="category-label">
+                                <span class="category-name">Silver</span>
+                                <span class="category-price">100 €</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label for="ticketQuantity">Nombre de places</label>
+                    <input 
+                        type="number" 
+                        id="ticketQuantity" 
+                        name="quantity" 
+                        min="1" 
+                        max="10" 
+                        value="1" 
+                        required>
+                </div>
+    
+                <div class="price-summary">
+                    <span class="price-label">Total</span>
+                    <span id="totalPrice" class="price-amount">200 €</span>
+                </div>
+    
+                <button type="submit" class="modal-submit">
+                    🎟 Confirmer l'achat
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <div class="notification-title">Achat confirmé !</div>
+            <div class="notification-message" id="notificationMessage"></div>
+        </div>
+        <button class="notification-close" onclick="hideNotification()">×</button>
+    </div>
+
+    <script src="./assets/js/common.js"></script>
+    <script src="./assets/js/dashboard.js"></script>
 </body>
 </html>

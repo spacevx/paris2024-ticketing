@@ -321,6 +321,22 @@ body {
     transform: scale(1.1);
 }
 
+.qr-button.match-finished {
+    background-color: var(--background-light);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.qr-button.match-finished:hover {
+    background-color: var(--background-light);
+    transform: none;
+    box-shadow: none;
+}
+
+.qr-button.match-finished svg {
+    color: var(--text-color);
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -514,53 +530,6 @@ body {
 
 .match-stadium svg {
     color: var(--accent-color);
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background-light: #1a1a1a;
-        --text-color: #e0e0e0;
-        --text-light: #a0a0a0;
-        --text-dark: #ffffff;
-        --border-color: #2a2a2a;
-    }
-
-    body {
-        background: #121212;
-    }
-
-    .nav-header,
-    .ticket-card,
-    .modal-content,
-    #qrCodeContainer,
-    .slider-counter {
-        background: #1f1f1f;
-    }
-
-    .modal-header {
-        border-bottom-color: #2a2a2a;
-    }
-
-    .match-teams {
-        background: #262626;
-    }
-
-    .vs {
-        background: #2d2d2d;
-        color: var(--text-light);
-    }
-
-    .team-name {
-        color: var(--text-light);
-    }
-
-    .category {
-        opacity: 0.9;
-    }
-
-    .modal {
-        background: rgba(0, 0, 0, 0.8);
-    }
 }
 
 @media print {

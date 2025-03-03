@@ -139,56 +139,69 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     
-
     function createTicketCard(ticket, event, teams, index) {
         const div = document.createElement('div');
         div.className = 'ticket-card';
         div.style.setProperty('--animation-order', index);
-
+    
+        // Ajouter une classe spéciale si le match a un score
+        if (event.score && event.score.trim() !== '') {
+            div.classList.add('has-score');
+        }
+    
         const header = document.createElement('div');
         header.className = 'ticket-header';
-
+    
         const category = document.createElement('span');
-        console.log("Avant conversion:", ticket.category);
-        console.log("Après conversion:", ticket.category.toLowerCase());
         const categoryClass = ticket.category.toLowerCase();
         category.className = `category ${categoryClass}`;
-        console.log("Classe finale:", category.className);
         category.textContent = ticket.category;
-
-        const computedStyle = window.getComputedStyle(category);
-        console.log("Style appliqué:", {
-            background: computedStyle.background,
-            color: computedStyle.color
-        });
-        
         
         header.appendChild(category);
-
+    
         const date = document.createElement('div');
         date.className = 'match-date';
         date.textContent = formatDate(event.start);
-
+    
         const teamsDiv = document.createElement('div');
         teamsDiv.className = 'match-teams';
-
+    
         const homeTeam = getTeamById(event.team_home, teams);
         const awayTeam = getTeamById(event.team_away, teams);
-
+    
         if (homeTeam && awayTeam) {
-            teamsDiv.innerHTML = `
-                <div class="team">
-                    <span class="fi fi-${homeTeam.code.toLowerCase()} team-flag"></span>
-                    <span class="team-name">${homeTeam.name}</span>
-                    ${homeTeam.nickname ? `<span class="team-nickname">${homeTeam.nickname}</span>` : ''}
-                </div>
-                <span class="vs">VS</span>
-                <div class="team">
-                    <span class="fi fi-${awayTeam.code.toLowerCase()} team-flag"></span>
-                    <span class="team-name">${awayTeam.name}</span>
-                    ${awayTeam.nickname ? `<span class="team-nickname">${awayTeam.nickname}</span>` : ''}
-                </div>
-            `;
+            // Vérification si le match a un score
+            if (event.score && event.score.trim() !== '') {
+                // Utiliser le score au lieu de "VS"
+                teamsDiv.innerHTML = `
+                    <div class="team">
+                        <span class="fi fi-${homeTeam.code.toLowerCase()} team-flag"></span>
+                        <span class="team-name">${homeTeam.name}</span>
+                        ${homeTeam.nickname ? `<span class="team-nickname">${homeTeam.nickname}</span>` : ''}
+                    </div>
+                    <span class="vs score-display">${event.score}</span>
+                    <div class="team">
+                        <span class="fi fi-${awayTeam.code.toLowerCase()} team-flag"></span>
+                        <span class="team-name">${awayTeam.name}</span>
+                        ${awayTeam.nickname ? `<span class="team-nickname">${awayTeam.nickname}</span>` : ''}
+                    </div>
+                `;
+            } else {
+                // Garder le "VS" pour les matchs sans score
+                teamsDiv.innerHTML = `
+                    <div class="team">
+                        <span class="fi fi-${homeTeam.code.toLowerCase()} team-flag"></span>
+                        <span class="team-name">${homeTeam.name}</span>
+                        ${homeTeam.nickname ? `<span class="team-nickname">${homeTeam.nickname}</span>` : ''}
+                    </div>
+                    <span class="vs">VS</span>
+                    <div class="team">
+                        <span class="fi fi-${awayTeam.code.toLowerCase()} team-flag"></span>
+                        <span class="team-name">${awayTeam.name}</span>
+                        ${awayTeam.nickname ? `<span class="team-nickname">${awayTeam.nickname}</span>` : ''}
+                    </div>
+                `;
+            }
         } else {
             const createPlaceholderTeam = () => {
                 const teamDiv = document.createElement('div');
@@ -216,7 +229,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             teamsDiv.appendChild(vs);
             teamsDiv.appendChild(createPlaceholderTeam());
         }
-
+    
         const stadium = document.createElement('div');
         stadium.className = 'match-stadium';
         const stadiumName = event.stadium ? getStadiumName(event.stadium) : "Stade non défini";
@@ -225,51 +238,61 @@ document.addEventListener('DOMContentLoaded', async () => {
             <path d="M12 2L2 8l10 6 10-6-10-6z"/>
             <path d="M4 14l8 6 8-6"/>
         </svg> ${stadiumName}`;
-
+    
         const details = document.createElement('div');
         details.className = 'ticket-details';
-
+    
         const leftSection = document.createElement('div');
         leftSection.className = 'ticket-info';
-
+    
         const count = document.createElement('div');
         count.className = 'ticket-count';
         count.textContent = `${ticket.ticket_count} billet${ticket.ticket_count > 1 ? 's' : ''}`;
-
+    
         const totalPrice = document.createElement('div');
         totalPrice.className = 'ticket-price';
         totalPrice.textContent = `${ticket.price * ticket.ticket_count} €`;
-
+    
         leftSection.appendChild(count);
         leftSection.appendChild(totalPrice);
-
+    
+        // Bouton QR Code
         const qrButton = document.createElement('button');
-        qrButton.className = 'qr-button';
-        qrButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <rect x="7" y="7" width="3" height="3"></rect>
-                <rect x="14" y="7" width="3" height="3"></rect>
-                <rect x="7" y="14" width="3" height="3"></rect>
-                <rect x="14" y="14" width="3" height="3"></rect>
-            </svg>
-            Voir QR Code
-        `;
-
+        
+        // Icône QR Code - Toujours présente
+        const qrIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <rect x="7" y="7" width="3" height="3"></rect>
+            <rect x="14" y="7" width="3" height="3"></rect>
+            <rect x="7" y="14" width="3" height="3"></rect>
+            <rect x="14" y="14" width="3" height="3"></rect>
+        </svg>`;
+        
+        if (event.score && event.score.trim() !== '') {
+            // Match terminé
+            qrButton.className = 'qr-button match-finished';
+            qrButton.innerHTML = `${qrIcon} Voir QR Code`;
+        } else {
+            // Match à venir
+            qrButton.className = 'qr-button';
+            qrButton.innerHTML = `${qrIcon} Voir QR Code`;
+        }
+    
+        // Bouton toujours cliquable
         qrButton.addEventListener('click', () => {
             showQRModal(ticket);
             modal.style.display = 'flex';
         });
-
+    
         details.appendChild(leftSection);
         details.appendChild(qrButton);
-
+    
         div.appendChild(header);
         div.appendChild(date);
         div.appendChild(teamsDiv);
         div.appendChild(stadium);
         div.appendChild(details);
-
+    
         return div;
     }
 

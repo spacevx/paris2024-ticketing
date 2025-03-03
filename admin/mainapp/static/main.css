@@ -1,0 +1,211 @@
+:root {
+    --primary-color: #1B1F3B;
+    --accent-color: #FF007C;
+    --text-color: #666666;
+    --border-color: #E0E0E0;
+    --background-light: #f8f9fa;
+    --danger-color: #dc3545;
+    --danger-hover: #c82333;
+}
+
+@font-face {
+    font-family: 'Paris2024';
+    src: url('./Paris2024.ttf') format('truetype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--background-light);
+    font-family: 'Paris2024', sans-serif;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.nav-header {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-logo span {
+    color: var(--accent-color);
+}
+
+.admin-panel {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.page-title {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+.events-table {
+    width: 100%;
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.events-table th {
+    background: var(--primary-color);
+    color: white;
+    text-align: left;
+    padding: 1rem;
+}
+
+.events-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.events-table tr:last-child td {
+    border-bottom: none;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--accent-color);
+}
+
+.btn-danger {
+    background: var(--danger-color);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: var(--danger-hover);
+}
+
+.btn-create {
+    margin-bottom: 1rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+.modal-title {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+.score {
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.winner {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.modal-footer {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.delete-confirmation {
+    text-align: center;
+    color: var(--text-color);
+    margin: 1rem 0 2rem;
+}

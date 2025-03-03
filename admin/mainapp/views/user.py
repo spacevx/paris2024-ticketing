@@ -5,6 +5,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from django.contrib.auth import login
 from ..serializers import RegisterSerializer, LoginSerializer
+from django.contrib.auth.views import LogoutView as DjangoLogoutView
+from django.urls import reverse_lazy
 
 class LoginView(APIView):
     def post(self, request):

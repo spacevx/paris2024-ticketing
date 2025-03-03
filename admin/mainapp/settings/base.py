@@ -121,10 +121,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:5500",  # Adresse URL local sur le port liveserver
+    "http://127.0.0.1:5500",
+    "http://127.0.0.1:8000",
 ]
 ALLOWED_HOSTS = [
     'localhost',
-    'http://127.0.0.1:5500'
-    '127.0.0.1',  # Pour les tests en local
+    '127.0.0.1:5500',
+    '127.0.0.1',
+    '127.0.0.1:8000',
 ]
+
+LOGIN_URL = 'myadmin:login'
+LOGIN_REDIRECT_URL = 'myadmin:my_admin'
+LOGOUT_REDIRECT_URL = 'myadmin:login'

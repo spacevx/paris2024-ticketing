@@ -14,7 +14,7 @@ class EventSerializer(serializers.ModelSerializer):
             })
 
         # Il faut que l'une des deux équipes gagne (peut être faire un système de match null?)
-        # TODO: a voir car si le match n'est pas passé encore ça peut être null, same pour le score
+        # TODO: a voir car si le match n'est pas passé encore ça peut être null, pareil pour le score
         winner = attrs.get('winner')
         if winner and winner not in [attrs.get('team_home'), attrs.get('team_away')]:
             raise serializers.ValidationError({

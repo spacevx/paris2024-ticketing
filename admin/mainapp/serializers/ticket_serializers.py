@@ -24,7 +24,7 @@ class BuyTicketSerializer(serializers.Serializer):
         User = get_user_model()
         try:
             user = User.objects.get(id=value)
-            return value  # Return the ID directly
+            return value
         except User.DoesNotExist:
             raise serializers.ValidationError("L'utilisateur spécifié n'existe pas.")
 

@@ -145,6 +145,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const div = document.createElement('div');
         div.className = 'match-card';
 
+        if (match.score && match.score.trim() !== '') {
+            div.classList.add('has-score');
+        }
+
         const date = document.createElement('div');
         date.className = 'match-date';
         date.textContent = formatDate(match.start);
@@ -176,7 +180,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const vs = document.createElement('span');
             vs.className = 'vs';
-            vs.textContent = 'VS';
+            
+            if (match.score && match.score.trim() !== '') {
+                vs.textContent = match.score;
+                vs.className = 'vs score-display';
+            } else {
+                vs.textContent = 'VS';
+            }
 
             const awayTeamDiv = document.createElement('div');
             awayTeamDiv.className = 'team';
@@ -235,8 +245,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (isAuthenticated()) {
             button.className = 'buy-button';
-            button.textContent = 'Acheter un ticket';
-            button.onclick = () => showTicketModal(match, teams);
+            
+            if (match.score) {
+                button.classList.add('match-finished');
+                button.textContent = 'Match terminé';
+            } else {
+                button.textContent = 'Acheter un ticket';
+                button.onclick = () => showTicketModal(match, teams);
+            }
         }
 
         div.appendChild(date);

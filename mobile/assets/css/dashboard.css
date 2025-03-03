@@ -229,6 +229,23 @@ body {
     box-shadow: none;
 }
 
+.buy-button.match-finished {
+    background-color: var(--background-light);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    cursor: default;
+}
+
+.buy-button.match-finished:hover {
+    background-color: var(--background-light);
+    transform: none;
+    box-shadow: none;
+}
+
+.buy-button.match-finished::before {
+    content: "🏆";
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -533,6 +550,33 @@ body {
 .login-banner .nav-btn:hover {
     background: var(--background-light);
     transform: translateY(-2px);
+}
+
+.match-card.has-score {
+    border-left: 4px solid var(--accent-color);
+}
+
+.score-display {
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    animation: scorePulse 2s infinite;
+    font-size: 1.1rem;
+}
+
+@keyframes scorePulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 124, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 0, 124, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 124, 0);
+    }
 }
 
 @keyframes fadeIn {

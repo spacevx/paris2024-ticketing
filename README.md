@@ -15,7 +15,6 @@ python manage.py runserver
 ```
 
 **Attention**: Ces commandes doivent être exécutées depuis le dossier ./admin
-**Attention**: Vous devez avoir l'extension LiveServer et la lancer (port 5500)
 
 Pour accéder au menu administrateur, ouvrez votre navigateur et entrez l'adresse suivante :
 

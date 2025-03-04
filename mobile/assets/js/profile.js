@@ -15,7 +15,59 @@ document.addEventListener('DOMContentLoaded', async () => {
         const qrWrapper = document.createElement('div');
         qrWrapper.id = 'qrCodeContainer';
         
-        if (ticket.ticket_count > 1) {
+        // Le ticket possède t-il un single ticket?
+        if (ticket.single_tickets && ticket.single_tickets.length > 0) {
+            const sliderContainer = document.createElement('div');
+            sliderContainer.className = 'qr-slider';
+            
+            const prevButton = document.createElement('button');
+            prevButton.className = 'slider-control prev';
+            prevButton.setAttribute('aria-label', 'Billet précédent');
+            prevButton.innerHTML = '←';
+            
+            const nextButton = document.createElement('button');
+            nextButton.className = 'slider-control next';
+            nextButton.setAttribute('aria-label', 'Billet suivant');
+            nextButton.innerHTML = '→';
+            
+            const counter = document.createElement('div');
+            counter.className = 'slider-counter';
+            
+            sliderContainer.appendChild(prevButton);
+            sliderContainer.appendChild(qrWrapper);
+            sliderContainer.appendChild(nextButton);
+            sliderContainer.appendChild(counter);
+            
+            let currentIndex = 0;
+            
+            function updateQRCode() {
+                qrWrapper.innerHTML = '';
+                counter.textContent = `${currentIndex + 1}/${ticket.single_tickets.length}`;
+                
+                new QRCode(qrWrapper, {
+                    text: ticket.single_tickets[currentIndex].uuid,
+                    width: 256,
+                    height: 256,
+                    colorDark: "#1B1F3B",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
+            
+            prevButton.onclick = () => {
+                currentIndex = (currentIndex - 1 + ticket.single_tickets.length) % ticket.single_tickets.length;
+                updateQRCode();
+            };
+            
+            nextButton.onclick = () => {
+                currentIndex = (currentIndex + 1) % ticket.single_tickets.length;
+                updateQRCode();
+            };
+            
+            modalBody.appendChild(sliderContainer);
+            updateQRCode();
+        } else if (ticket.ticket_count > 1) {
+            // Si pas de single ticket, on utilise l'ancienne logique
             const sliderContainer = document.createElement('div');
             sliderContainer.className = 'qr-slider';
             
@@ -66,10 +118,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             modalBody.appendChild(sliderContainer);
             updateQRCode();
         } else {
+            // Cas d'un seul ticket
             modalBody.appendChild(qrWrapper);
             
             new QRCode(qrWrapper, {
-                text: ticket.uuid,
+                text: ticket.uuid || (ticket.single_tickets && ticket.single_tickets[0] ? ticket.single_tickets[0].uuid : "ticket-error"),
                 width: 256,
                 height: 256,
                 colorDark: "#1B1F3B",
@@ -144,7 +197,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         div.className = 'ticket-card';
         div.style.setProperty('--animation-order', index);
     
-        // Ajouter une classe spéciale si le match a un score
         if (event.score && event.score.trim() !== '') {
             div.classList.add('has-score');
         }
@@ -170,9 +222,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const awayTeam = getTeamById(event.team_away, teams);
     
         if (homeTeam && awayTeam) {
-            // Vérification si le match a un score
             if (event.score && event.score.trim() !== '') {
-                // Utiliser le score au lieu de "VS"
                 teamsDiv.innerHTML = `
                     <div class="team">
                         <span class="fi fi-${homeTeam.code.toLowerCase()} team-flag"></span>
@@ -187,7 +237,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                 `;
             } else {
-                // Garder le "VS" pour les matchs sans score
                 teamsDiv.innerHTML = `
                     <div class="team">
                         <span class="fi fi-${homeTeam.code.toLowerCase()} team-flag"></span>
@@ -256,10 +305,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         leftSection.appendChild(count);
         leftSection.appendChild(totalPrice);
     
-        // Bouton QR Code
         const qrButton = document.createElement('button');
         
-        // Icône QR Code - Toujours présente
         const qrIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
             <rect x="7" y="7" width="3" height="3"></rect>
@@ -278,7 +325,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             qrButton.innerHTML = `${qrIcon} Voir QR Code`;
         }
     
-        // Bouton toujours cliquable
         qrButton.addEventListener('click', () => {
             showQRModal(ticket);
             modal.style.display = 'flex';

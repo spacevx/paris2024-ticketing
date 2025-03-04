@@ -76,6 +76,9 @@ class UpdateEventView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         try:
             event = Event.objects.get(pk=event_id)
             
+            old_team_home = event.team_home
+            old_team_away = event.team_away
+            
             event.team_home_id = request.POST.get('team_home')
             event.team_away_id = request.POST.get('team_away')
             event.stadium_id = request.POST.get('stadium')

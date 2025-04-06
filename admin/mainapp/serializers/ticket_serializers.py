@@ -15,15 +15,25 @@ class TicketCategorySerializer(serializers.ModelSerializer):
         fields = ['category', 'count', 'price', 'single_tickets']
 
 class TicketSerializer(serializers.ModelSerializer):
+    user_info = serializers.SerializerMethodField()
     categories = TicketCategorySerializer(many=True, read_only=True)
     total_price = serializers.SerializerMethodField()
     
     class Meta:
         model = Ticket
-        fields = ['id', 'uuid', 'user', 'event', 'categories', 'total_price', 'created_at']
+        fields = ['id', 'uuid', 'user', 'user_info', 'event', 'categories', 'total_price', 'created_at']
     
     def get_total_price(self, obj):
         return obj.get_total_price()
+
+    def get_user_info(self, obj):
+        user = obj.user
+        return {
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email
+        }
 
 class BuyTicketSerializer(serializers.Serializer):
     user = serializers.IntegerField()

@@ -2,9 +2,210 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+/* Me permet de récupérer le nom du stade selon son ID */
 function getStadiumName(stadiumId) {
     const stadium = window.APP.STADIUMS.find(stadium => stadium.id === stadiumId);
     return stadium ? stadium.name : "Stade non trouvé";
+}
+
+function initTicketForm() {
+    const ticketForm = document.getElementById('ticketForm');
+    const totalPrice = document.getElementById('totalPrice');
+    const ticketSummary = document.getElementById('ticketSummary');
+    const confirmPurchaseBtn = document.getElementById('confirmPurchase');
+
+    const qtyButtons = document.querySelectorAll('.qty-btn');
+    const qtyInputs = document.querySelectorAll('.ticket-quantity');
+
+    /* Prix selon la catégorie, les prix sont hardcodé */
+    const CATEGORY_PRICES = {
+        'platinium': 200,
+        'gold': 150,
+        'silver': 100
+    };
+
+    /* CSS classe pour les catégories */
+    const CATEGORY_CLASSES = {
+        'platinium': 'platinum',
+        'gold': 'gold',
+        'silver': 'silver'
+    };
+
+    /* Animation du prix total quand on achète des tickets */
+    function animateTotal(newTotal) {
+        const currentTotal = parseInt(totalPrice.textContent) || 0;
+        const step = Math.ceil(Math.abs(newTotal - currentTotal) / 10);
+        let current = currentTotal;
+
+        const interval = setInterval(() => {
+            if (current < newTotal) {
+                current = Math.min(current + step, newTotal);
+            } else if (current > newTotal) {
+                current = Math.max(current - step, newTotal);
+            }
+
+            totalPrice.textContent = `${current} €`;
+
+            if (current === newTotal) {
+                clearInterval(interval);
+            }
+        }, 20);
+    }
+
+    /* Permet de gérer le bouton +/- dans l'achat des tickets */
+    function updateQuantityButtons(category, quantity) {
+        const minusBtn = document.querySelector(`.qty-minus[data-category="${category}"]`);
+        const plusBtn = document.querySelector(`.qty-plus[data-category="${category}"]`);
+        const input = document.getElementById(`${category}Quantity`);
+        const max = parseInt(input.max);
+
+        /* Si quantity = 0 alors on enlève le bouton - */
+        minusBtn.disabled = quantity <= 0;
+
+        /* Si quantity = max alors on enlève le bouton + */
+        plusBtn.disabled = quantity >= max;
+    }
+
+    // Update du prix total
+    function updateTotalPrice() {
+        let total = 0;
+        let hasTickets = false;
+        let summaryHTML = '';
+
+        qtyInputs.forEach(input => {
+            const category = input.name;
+            const quantity = parseInt(input.value);
+            const price = CATEGORY_PRICES[category.toLowerCase()];
+            const categoryItem = input.closest('.category-item');
+
+            if (quantity > 0) {
+                hasTickets = true;
+                total += quantity * price;
+
+                /* On ajoute ça au résumé du prix total avec la bonne couleur (selon le type de ticket) */
+                const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
+                const categoryClass = CATEGORY_CLASSES[category.toLowerCase()];
+
+                summaryHTML += `
+                    <div class="ticket-summary-item">
+                        <span class="ticket-summary-category ${categoryClass}">${quantity} × ${categoryName}</span>
+                        <span class="ticket-summary-price">${quantity * price} €</span>
+                    </div>
+                `;
+
+                categoryItem.classList.add('has-tickets');
+
+                updateQuantityButtons(category, quantity);
+            } else {
+                categoryItem.classList.remove('has-tickets');
+                updateQuantityButtons(category, 0);
+            }
+        });
+
+        ticketSummary.innerHTML = summaryHTML;
+
+        if (hasTickets) {
+            ticketSummary.classList.add('active');
+        } else {
+            ticketSummary.classList.remove('active');
+        }
+
+        confirmPurchaseBtn.disabled = !hasTickets;
+
+        animateTotal(total);
+    }
+
+    qtyInputs.forEach(input => {
+        updateQuantityButtons(input.name, parseInt(input.value));
+    });
+
+    qtyButtons.forEach(button => {
+        /* Pour éviter les doublons */
+        button.removeEventListener('click', handleQuantityButtonClick);
+
+        button.addEventListener('click', handleQuantityButtonClick);
+    });
+
+    function handleQuantityButtonClick(event) {
+        // Pour éviter le spam
+        event.preventDefault();
+
+        const button = this;
+        if (button.disabled) return;
+
+        // Pour éviter les clics accidentel
+        if (button.dataset.processing === 'true') return;
+        button.dataset.processing = 'true';
+
+        const isPlus = button.classList.contains('qty-plus');
+        const category = button.dataset.category;
+        const input = document.getElementById(`${category}Quantity`);
+        let value = parseInt(input.value);
+
+        button.classList.add('btn-active');
+
+        if (isPlus && value < parseInt(input.max)) {
+            input.value = value + 1;
+
+            // Animation de pulse
+            const categoryItem = input.closest('.category-item');
+            categoryItem.classList.add('pulse');
+            setTimeout(() => categoryItem.classList.remove('pulse'), 300);
+        } else if (!isPlus && value > 0) {
+            input.value = value - 1;
+        }
+
+        updateTotalPrice();
+
+        setTimeout(() => {
+            button.classList.remove('btn-active');
+            button.dataset.processing = 'false';
+        }, 150);
+    }
+
+    qtyInputs.forEach(input => {
+        input.addEventListener('change', () => {
+            const min = parseInt(input.min);
+            const max = parseInt(input.max);
+            let value = parseInt(input.value) || 0;
+
+            if (value < min) input.value = min;
+            if (value > max) input.value = max;
+
+            updateTotalPrice();
+        });
+    });
+
+    const categoryItems = document.querySelectorAll('.category-item');
+    categoryItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            categoryItems.forEach(otherItem => {
+                if (otherItem !== item && !otherItem.classList.contains('has-tickets')) {
+                    otherItem.classList.add('category-dimmed');
+                }
+            });
+        });
+
+        item.addEventListener('mouseleave', () => {
+            categoryItems.forEach(otherItem => {
+                otherItem.classList.remove('category-dimmed');
+            });
+        });
+    });
+
+    updateTotalPrice();
+
+    return {
+        updateTotalPrice,
+        resetForm: () => {
+            qtyInputs.forEach(input => {
+                input.value = 0;
+                input.closest('.category-item').classList.remove('has-tickets');
+                updateQuantityButtons(input.name, 0);
+            });
+            updateTotalPrice();
+        }
+    };
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -18,7 +219,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
         userActions.style.display = 'none';
         guestActions.style.display = 'flex';
-        
+
+        // Bannière pour les personnes sans compte
         const loginBanner = document.createElement('div');
         loginBanner.className = 'login-banner';
         loginBanner.innerHTML = `
@@ -40,20 +242,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const modal = document.getElementById('ticketModal');
     const closeModal = document.getElementById('closeModal');
     const ticketForm = document.getElementById('ticketForm');
-    const ticketQuantity = document.getElementById('ticketQuantity');
-    const categoryInputs = document.querySelectorAll('input[name="category"]');
-    const totalPrice = document.getElementById('totalPrice');
 
-    const CATEGORY_PRICES = {
-        'platinium': 200,
-        'gold': 150,
-        'silver': 100
-    };
-
+    // Charger les matchs depuis l'API
     try {
         const matches = await fetchData('events');
         const teams = await fetchData('teams');
 
+        // Créer les matchs
         matches.forEach(match => {
             const matchCard = createMatchCard(match, teams);
             matchesGrid.appendChild(matchCard);
@@ -63,82 +258,108 @@ document.addEventListener('DOMContentLoaded', async () => {
         showNotification('Erreur lors du chargement des matchs', 3000);
     }
 
-    logoutBtn.addEventListener('click', () => {
-        clearSession();
-        window.location.href = './index.html';
-    });
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            /*TODO: aussi le déco depuis Django? */
+            clearSession();
+            window.location.href = './index.html';
+        });
+    }
 
-    profileBtn.addEventListener('click', () => {
-        window.location.href = './profile.html';
-    });
+    if (profileBtn) {
+        profileBtn.addEventListener('click', () => {
+            window.location.href = './assets/pages/profile.html';
+        });
+    }
 
     closeModal.addEventListener('click', () => {
-        modal.style.display = 'none';
+        closeTicketModal();
     });
 
     window.addEventListener('click', (event) => {
         if (event.target === modal) {
-            modal.style.display = 'none';
+            closeTicketModal();
         }
     });
 
-    function updateTotalPrice() {
-        const quantity = parseInt(ticketQuantity.value);
-        const selectedCategory = document.querySelector('input[name="category"]:checked').value;
-        const price = CATEGORY_PRICES[selectedCategory.toLowerCase()];
-        const total = quantity * price;
-        totalPrice.textContent = `${total} €`;
+    function closeTicketModal() {
+        modal.classList.add('modal-closing');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.classList.remove('modal-closing');
+        }, 300);
     }
 
-    categoryInputs.forEach(input => {
-        input.addEventListener('change', updateTotalPrice);
-    });
-
-    ticketQuantity.addEventListener('change', updateTotalPrice);
-
     async function showTicketModal(match, teams) {
-        console.log("oooo", match);
         const homeTeam = getTeamById(match.team_home, teams);
         const awayTeam = getTeamById(match.team_away, teams);
 
         document.getElementById('modalMatchDate').textContent = formatDate(match.start);
         document.getElementById('modalStadium').textContent = getStadiumName(match.stadium);
-        
+
         const homeTeamName = homeTeam ? homeTeam.name : "À déterminer";
         const awayTeamName = awayTeam ? awayTeam.name : "À déterminer";
         document.getElementById('modalTeams').textContent = `${homeTeamName} VS ${awayTeamName}`;
 
-        ticketForm.reset();
-        updateTotalPrice();
+        const ticketFormControls = initTicketForm();
+
+        ticketFormControls.resetForm();
 
         ticketForm.onsubmit = async (e) => {
             e.preventDefault();
+
+            const confirmBtn = document.getElementById('confirmPurchase');
+            const originalText = confirmBtn.innerHTML;
+            confirmBtn.innerHTML = '<div class="loader"></div> Traitement en cours...';
+            confirmBtn.disabled = true;
+
             try {
                 const userData = JSON.parse(localStorage.getItem("userData"));
-                const quantity = parseInt(ticketQuantity.value);
-                const category = capitalizeFirstLetter(document.querySelector('input[name="category"]:checked').value);
+                const tickets = {};
+                let totalTickets = 0;
+
+                document.querySelectorAll('.ticket-quantity').forEach(input => {
+                    const category = input.name;
+                    const quantity = parseInt(input.value);
+
+                    if (quantity > 0) {
+                        // on CAPS la première lettre pour Django
+                        tickets[capitalizeFirstLetter(category)] = quantity;
+                        totalTickets += quantity;
+                    }
+                });
 
                 const result = await post({
                     user: userData.id,
                     event: match.id,
-                    ticket_count: quantity,
-                    category: category
+                    tickets: tickets
                 }, 'buy-ticket');
 
-                const message = `Vous avez acheté ${quantity} billet${quantity > 1 ? 's' : ''} en catégorie ${category} pour le match ${document.getElementById('modalTeams').textContent} le ${document.getElementById('modalMatchDate').textContent}`;
-                modal.style.display = 'none';
+                const categoryText = Object.entries(tickets)
+                    .map(([category, quantity]) => `${quantity} ${category}`)
+                    .join(', ');
+
+                const message = `Vous avez acheté ${totalTickets} billet${totalTickets > 1 ? 's' : ''} (${categoryText}) pour le match ${homeTeamName} VS ${awayTeamName} le ${formatDate(match.start)}`;
+
+                closeTicketModal();
 
                 setTimeout(() => {
                     showNotification(message, 7000);
-                }, 1000);
+                }, 500);
 
             } catch (error) {
                 console.error('Erreur lors de l\'achat:', error);
                 showNotification('Une erreur est survenue lors de l\'achat des billets', 3000);
+
+                confirmBtn.innerHTML = originalText;
+                confirmBtn.disabled = false;
             }
         };
 
-        modal.style.display = 'block';
+        modal.style.display = 'flex';
+        setTimeout(() => {
+            modal.classList.add('modal-open');
+        }, 10);
     }
 
     function createMatchCard(match, teams) {
@@ -160,6 +381,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const awayTeam = getTeamById(match.team_away, teams);
 
         if (homeTeam && awayTeam) {
+            // Équipe maison
             const homeTeamDiv = document.createElement('div');
             homeTeamDiv.className = 'team';
 
@@ -178,9 +400,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             homeTeamDiv.appendChild(homeName);
             if (homeTeam.nickname) homeTeamDiv.appendChild(homeNickname);
 
+            // VS ou score
             const vs = document.createElement('span');
             vs.className = 'vs';
-            
+
             if (match.score && match.score.trim() !== '') {
                 vs.textContent = match.score;
                 vs.className = 'vs score-display';
@@ -188,6 +411,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 vs.textContent = 'VS';
             }
 
+            // Équipe dehors
             const awayTeamDiv = document.createElement('div');
             awayTeamDiv.className = 'team';
 
@@ -245,7 +469,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (isAuthenticated()) {
             button.className = 'buy-button';
-            
+
             if (match.score) {
                 button.classList.add('match-finished');
                 button.textContent = 'Match terminé';

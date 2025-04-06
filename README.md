@@ -24,3 +24,6 @@ http://127.0.0.1:8000/myadmin
 (L'URL http://127.0.0.1:8000/admin étant l'interface admin de base de Django)
 
 Vous devrez vous authentifier avec les identifiants que vous avez créés précédemment. Une fois authentifié, vous aurez accès à l'interface administrateur.
+
+TODO:
+- [ ] Fix le responsive pour les achats des tickets

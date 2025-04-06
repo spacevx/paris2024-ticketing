@@ -4,7 +4,7 @@
 
 - Utilisation d'un gestionnaire de versions pour son code
 - Usage de l'HTML et du CSS pour créer des pages statiques
-- Utilistation d'une base de données pour stocker les inforlations importantes
+- Utilistation d'une base de données pour stocker les informations importantes
 - Utilisation de Python avec le framework Django pour interagir avec la BDD et proposer une interface d'administration
 
 ## 🏁 Contexte

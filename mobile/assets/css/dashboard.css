@@ -10,6 +10,9 @@
     --border-color: #E0E0E0;
     --background-light: #f8f9fa;
     --success-color: #10B981;
+    --platinum-color: #E5E4E2;
+    --gold-color: #FFD700;
+    --silver-color: #C0C0C0;
     --card-shadow: 0 8px 16px rgba(0,0,0,0.1);
     font-family: 'Paris2024', sans-serif;
 }
@@ -20,19 +23,26 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 16px;
+}
+
 body {
     background: var(--background-light);
     min-height: 100vh;
     color: var(--text-color);
+    font-size: clamp(0.875rem, 1vw, 1rem);
 }
 
+/* Header et navigation */
 .nav-header {
     background: white;
-    padding: 1rem 2rem;
+    padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 3vw, 2rem);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
     z-index: 100;
+    width: 100%;
 }
 
 .nav-container {
@@ -41,10 +51,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .nav-logo {
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
     font-weight: bold;
     color: var(--primary-color);
     text-decoration: none;
@@ -56,14 +68,15 @@ body {
 
 .nav-actions {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .nav-btn {
-    padding: 0.75rem 1.5rem;
+    padding: clamp(0.5rem, 2vw, 0.75rem) clamp(0.75rem, 3vw, 1.5rem);
     border-radius: 50px;
-    font-size: 0.9rem;
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -93,30 +106,35 @@ body {
     background-color: var(--accent-color);
 }
 
+/* Dashboard layout */
 .dashboard {
     max-width: 1400px;
-    margin: 2rem auto;
-    padding: 0 2rem;
+    margin: clamp(1rem, 4vw, 2rem) auto;
+    padding: 0 clamp(1rem, 3vw, 2rem);
+    width: 100%;
 }
 
 .page-title {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 5vw, 2rem);
     color: var(--primary-color);
-    margin-bottom: 2rem;
+    margin-bottom: clamp(1rem, 4vw, 2rem);
 }
 
 .matches-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
+    gap: clamp(1rem, 4vw, 2rem);
+    width: 100%;
 }
 
+/* Match cards */
 .match-card {
     background: white;
     border-radius: 1.5rem;
-    padding: 2rem;
+    padding: clamp(1.25rem, 5vw, 2rem);
     box-shadow: var(--card-shadow);
     transition: all 0.3s ease;
+    width: 100%;
 }
 
 .match-card:hover {
@@ -125,11 +143,12 @@ body {
 
 .match-date {
     color: var(--accent-color);
-    font-size: 1rem;
+    font-size: clamp(0.875rem, 2vw, 1rem);
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .match-date::before {
@@ -140,11 +159,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1.5rem;
+    gap: clamp(0.75rem, 3vw, 1.5rem);
     margin-bottom: 1.5rem;
-    padding: 1.5rem;
+    padding: clamp(1rem, 4vw, 1.5rem);
     background: var(--background-light);
     border-radius: 1rem;
+    flex-wrap: wrap;
 }
 
 .team {
@@ -153,42 +173,44 @@ body {
     align-items: center;
     gap: 0.75rem;
     flex: 1;
+    min-width: min(120px, 100%);
 }
 
 .team-flag {
-    font-size: 48px !important;
+    font-size: clamp(32px, 8vw, 48px) !important;
 }
 
 .team-name {
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
     color: var(--primary-color);
     text-align: center;
 }
 
 .team-nickname {
-    font-size: 0.9rem;
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
     color: var(--accent-color);
     font-style: italic;
 }
 
 .vs {
     font-weight: bold;
-    padding: 0.5rem 1rem;
+    padding: clamp(0.35rem, 1.5vw, 0.5rem) clamp(0.75rem, 2vw, 1rem);
     background: white;
     border-radius: 50px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .match-stadium {
-    font-size: 1rem;
+    font-size: clamp(0.875rem, 2vw, 1rem);
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 1rem;
+    padding: clamp(0.75rem, 3vw, 1rem);
     background: var(--background-light);
     border-radius: 0.75rem;
+    flex-wrap: wrap;
 }
 
 .match-stadium::before {
@@ -197,14 +219,14 @@ body {
 
 .buy-button {
     width: 100%;
-    padding: 1rem;
+    padding: clamp(0.75rem, 3vw, 1rem);
     background: var(--primary-color);
     color: white;
     border: none;
     border-radius: 0.75rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 1rem;
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -246,6 +268,7 @@ body {
     content: "🏆";
 }
 
+/* Modal d'achat de tickets */
 .modal {
     display: none;
     position: fixed;
@@ -256,49 +279,46 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     backdrop-filter: blur(4px);
-    overflow-y: auto; /* Permet le défilement vertical */
+    overflow-y: auto;
+    padding: clamp(0, 2vw, 1rem);
+}
+
+.modal-closing {
+    animation: modalFadeOut 0.3s ease-out forwards;
+}
+
+.modal-open {
+    animation: modalFadeIn 0.3s ease-out forwards;
 }
 
 .modal-content {
     position: relative;
     background-color: white;
-    margin: 2rem auto; /* Réduit la marge supérieure */
-    padding: 2rem;
-    border-radius: 1.5rem;
-    width: 90%;
-    max-width: 500px;
+    margin: clamp(0.5rem, 4vw, 2rem) auto;
+    padding: clamp(1.25rem, 5vw, 2rem);
+    border-radius: clamp(1rem, 3vw, 1.5rem);
+    width: clamp(280px, 95%, 800px);
     box-shadow: var(--card-shadow);
     animation: modalSlideIn 0.3s ease-out;
 }
 
-@keyframes modalSlideIn {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
 .modal-close {
     position: absolute;
-    right: 1.5rem;
-    top: 1.5rem;
+    right: clamp(1rem, 3vw, 1.5rem);
+    top: clamp(1rem, 3vw, 1.5rem);
     font-size: 1.5rem;
     cursor: pointer;
     color: var(--text-color);
     background: none;
     border: none;
-    width: 2rem;
-    height: 2rem;
+    width: 2.5rem;
+    height: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: all 0.2s ease;
-    z-index: 1; /* S'assurer que le bouton reste cliquable */
+    transition: all 0.3s ease;
+    z-index: 1;
 }
 
 .modal-close:hover {
@@ -309,138 +329,359 @@ body {
 
 .modal-title {
     color: var(--primary-color);
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 4vw, 1.75rem);
     margin-bottom: 1.5rem;
     font-weight: bold;
-    padding-right: 2rem; /* Espace pour le bouton de fermeture */
+    padding-right: 2rem;
+    position: relative;
+}
+
+.modal-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: clamp(40px, 12vw, 60px);
+    height: 4px;
+    background: var(--accent-color);
+    border-radius: 4px;
 }
 
 .modal-info {
-    margin-bottom: 2rem;
+    margin-bottom: clamp(1.5rem, 4vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
 .modal-info-item {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 1rem;
+    padding: clamp(1rem, 3vw, 1.25rem);
     background: var(--background-light);
-    border-radius: 0.75rem;
-    margin-bottom: 0.75rem;
+    border-radius: 1rem;
     font-weight: 500;
+    transition: all 0.3s ease;
+    font-size: clamp(0.875rem, 2vw, 1rem);
 }
 
+.modal-info-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulaire de tickets */
 .modal-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: clamp(1.5rem, 4vw, 2rem);
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: clamp(1rem, 3vw, 1.25rem);
 }
 
 .form-group label {
     color: var(--primary-color);
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
 }
 
-.category-options {
+/* Conteneur des catégories */
+.categories-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: clamp(1rem, 3vw, 1.5rem);
+    width: 100%;
 }
 
-.category-option {
+.category-item {
     position: relative;
-}
-
-.category-option input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.category-label {
+    background: white;
+    border-radius: 1rem;
+    padding: clamp(1.25rem, 4vw, 1.5rem);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 1rem 0.5rem;
-    background: var(--background-light);
-    border-radius: 1rem;
-    border: 2px solid transparent;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    height: 100%;
 }
 
-.category-option input:checked + .category-label {
+.category-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.category-item.has-tickets {
     border-color: var(--accent-color);
-    background: white;
-    box-shadow: 0 4px 12px rgba(255, 0, 124, 0.15);
-    transform: translateY(-2px);
+    background: linear-gradient(to bottom, white, var(--background-light));
+}
+
+.category-item.category-dimmed {
+    opacity: 0.6;
+    transform: scale(0.98);
+}
+
+.category-item.pulse {
+    animation: pulseBorder 0.3s ease-out;
+}
+
+.category-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--primary-color);
+    color: white;
+    font-size: clamp(0.7rem, 1.5vw, 0.75rem);
+    font-weight: bold;
+    padding: 0.35rem 0.75rem;
+    border-radius: 0 0.75rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.category-badge.popular {
+    background: var(--accent-color);
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
 }
 
 .category-name {
     font-weight: bold;
     color: var(--primary-color);
-    margin-bottom: 0.25rem;
-    text-align: center;
+    font-size: clamp(1rem, 3vw, 1.2rem);
 }
 
 .category-price {
     color: var(--accent-color);
-    font-weight: 600;
-    font-size: 1.1rem;
+    font-weight: bold;
+    font-size: clamp(1.1rem, 3vw, 1.25rem);
 }
 
-.form-group input[type="number"] {
-    padding: 0.75rem;
-    border: 2px solid var(--border-color);
+.category-features {
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+}
+
+.category-features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-features li {
+    padding: 0.5rem 0;
+    color: var(--text-color);
+    position: relative;
+    padding-left: 1.5rem;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+.category-features li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+.category-quantity {
+    display: flex;
+    align-items: center;
     border-radius: 0.75rem;
-    font-size: 1rem;
-    width: 100%;
-    transition: all 0.2s ease;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    background: white;
 }
 
-.form-group input[type="number"]:focus {
-    border-color: var(--accent-color);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 0, 124, 0.1);
+.qty-btn {
+    background: white;
+    border: none;
+    width: clamp(35px, 10vw, 40px);
+    height: clamp(35px, 10vw, 40px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.qty-btn:hover:not(:disabled) {
+    background: var(--background-light);
+}
+
+.qty-btn:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.qty-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.qty-btn:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.qty-minus {
+    border-right: 1px solid var(--border-color);
+}
+
+.qty-minus:before {
+    content: "";
+}
+
+.qty-plus {
+    border-left: 1px solid var(--border-color);
+}
+
+.qty-plus:before {
+    content: "";
+}
+
+.btn-active {
+    background-color: var(--background-light) !important;
+}
+
+.ticket-quantity {
+    flex: 1;
+    border: none;
+    text-align: center;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    padding: 0.5rem;
+    background: white;
+    color: var(--primary-color);
+    font-weight: bold;
+    appearance: textfield;
+    min-width: 40px;
+}
+
+.ticket-quantity::-webkit-inner-spin-button,
+.ticket-quantity::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Résumé et total */
+.ticket-summary-container {
+    background: var(--background-light);
+    border-radius: 1rem;
+    padding: clamp(1.25rem, 4vw, 1.5rem);
+    margin-top: 1rem;
+    width: 100%;
 }
 
 .price-summary {
-    background: var(--background-light);
-    padding: 1.25rem;
-    border-radius: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 0.5rem;
+    padding-bottom: 1rem;
+    background: var(--background-light);
+    border-radius: 1rem;
 }
 
 .price-label {
     font-weight: bold;
     color: var(--primary-color);
-    font-size: 1.1rem;
+    font-size: clamp(1rem, 3vw, 1.2rem);
 }
 
 .price-amount {
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
     color: var(--accent-color);
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.ticket-summary {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.5s ease;
+    width: 100%;
+}
+
+.ticket-summary.active {
+    max-height: 200px;
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    background: var(--background-light);
+    border-radius: 8px;
+}
+
+.ticket-summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+}
+
+.ticket-summary-category {
+    position: relative;
+    padding-left: 20px;
+    font-weight: 500;
+}
+
+.ticket-summary-category::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.ticket-summary-category.platinum::before {
+    background-color: var(--platinum-color);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.ticket-summary-category.gold::before {
+    background-color: var(--gold-color);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.ticket-summary-category.silver::before {
+    background-color: var(--silver-color);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.ticket-summary-price {
     font-weight: bold;
 }
 
+/* Bouton de confirmation */
 .modal-submit {
     background: var(--primary-color);
     color: white;
     border: none;
-    padding: 1.25rem;
-    border-radius: 1rem;
-    font-size: 1.1rem;
+    padding: clamp(1rem, 3vw, 1.25rem);
+    border-radius: 0.75rem;
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -449,36 +690,55 @@ body {
     justify-content: center;
     gap: 0.5rem;
     margin-top: 1rem;
+    width: 100%;
 }
 
-.modal-submit:hover {
+.modal-submit:hover:not(:disabled) {
     background: var(--accent-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 0, 124, 0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(255, 0, 124, 0.25);
 }
 
-.team-flag.placeholder {
-    width: 48px;
-    height: 48px;
-    background: var(--background-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: var(--text-light);
-    border-radius: var(--radius-sm);
+.modal-submit:disabled {
+    background-color: var(--border-color);
+    transform: none;
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
+/* Touch target improvements for mobile */
+.qty-btn, .modal-close, .buy-button {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* Indicateur de chargement */
+.loader {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Guest actions */
 .guest-actions {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .login-btn, .register-btn {
     text-decoration: none;
-    padding: 0.75rem 1.5rem;
+    padding: clamp(0.5rem, 2vw, 0.75rem) clamp(0.75rem, 3vw, 1.5rem);
     border-radius: 50px;
-    font-size: 0.9rem;
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
     font-weight: 600;
     transition: all 0.3s ease;
     display: flex;
@@ -513,36 +773,40 @@ body {
 .login-banner {
     background: linear-gradient(to right, var(--primary-color), var(--accent-color));
     color: white;
-    padding: 1rem;
+    padding: clamp(0.75rem, 3vw, 1rem);
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: clamp(1rem, 4vw, 2rem);
     border-radius: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
     animation: fadeIn 0.5s ease-out;
+    width: 100%;
 }
 
 .login-banner-content {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: clamp(0.75rem, 3vw, 1.5rem);
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .login-banner-text {
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
     font-weight: 500;
 }
 
 .login-banner-buttons {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .login-banner .nav-btn {
     padding: 0.5rem 1rem;
-    font-size: 0.875rem;
+    font-size: clamp(0.8rem, 2vw, 0.875rem);
     background: white;
     color: var(--primary-color);
 }
@@ -558,13 +822,55 @@ body {
 
 .score-display {
     font-weight: bold;
-    padding: 0.5rem 1rem;
+    padding: clamp(0.35rem, 1.5vw, 0.5rem) clamp(0.75rem, 2vw, 1rem);
     background: var(--primary-color);
     color: white;
     border-radius: 50px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     animation: scorePulse 2s infinite;
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+}
+
+.team-flag.placeholder {
+    width: clamp(36px, 10vw, 48px);
+    height: clamp(36px, 10vw, 48px);
+    background: var(--background-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--text-light);
+    border-radius: 8px;
+}
+
+/* Animations */
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes scorePulse {
@@ -590,7 +896,31 @@ body {
     }
 }
 
+@keyframes pulseBorder {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 124, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 0 8px rgba(255, 0, 124, 0);
+    }
+}
+
 /* Media Queries */
+@media (min-width: 768px) {
+    .categories-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .modal-info {
+        flex-direction: row;
+        gap: 1rem;
+    }
+    
+    .modal-info-item {
+        flex: 1;
+    }
+}
+
 @media (max-width: 768px) {
     .login-banner-content {
         flex-direction: column;
@@ -601,9 +931,7 @@ body {
         width: 100%;
         justify-content: center;
     }
-}
-
-@media (max-width: 768px) {
+    
     .nav-container {
         flex-direction: column;
         gap: 1rem;
@@ -614,54 +942,35 @@ body {
         justify-content: center;
     }
 
-    .dashboard {
-        padding: 1rem;
-        margin: 1rem auto;
-    }
-
-    .matches-grid {
-        grid-template-columns: 1fr;
-    }
-
     .match-teams {
         flex-direction: column;
     }
 
     .vs {
-        margin: 1rem 0;
+        margin: 0.5rem 0;
+    }
+    
+    .categories-container {
+        grid-template-columns: 1fr;
     }
 }
 
-@media (max-width: 768px) {
-    .modal-content {
-        margin: 1rem auto;
-        padding: 1.5rem;
+@media (max-width: 576px) {
+    .category-header {
+        flex-direction: column;
+        align-items: flex-start;
     }
-
-    .category-options {
-        grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur tablette */
+    
+    .category-item {
+        padding: 1.25rem;
     }
-}
-
-@media (max-width: 480px) {
-    .modal-content {
-        margin: 0;
-        width: 100%;
-        min-height: 100vh;
-        border-radius: 0;
+    
+    .modal-close {
+        top: 0.75rem;
+        right: 0.75rem;
     }
-
-    .category-options {
-        grid-template-columns: 1fr; /* 1 colonne sur mobile */
-    }
-
-    .category-label {
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 1rem;
-    }
-
-    .modal {
-        padding: 0; /* Supprime le padding sur mobile */
+    
+    .modal-title {
+        padding-right: 2.5rem;
     }
 }

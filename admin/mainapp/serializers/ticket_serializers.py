@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Ticket, Event, SingleTicket
+from ..models import Ticket, TicketCategory, Event, SingleTicket
 from django.contrib.auth import get_user_model
 
 class SingleTicketSerializer(serializers.ModelSerializer):
@@ -7,57 +7,72 @@ class SingleTicketSerializer(serializers.ModelSerializer):
         model = SingleTicket
         fields = ['uuid', 'created_at']
 
-class TicketSerializer(serializers.ModelSerializer):
+class TicketCategorySerializer(serializers.ModelSerializer):
     single_tickets = SingleTicketSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = TicketCategory
+        fields = ['category', 'count', 'price', 'single_tickets']
 
+class TicketSerializer(serializers.ModelSerializer):
+    categories = TicketCategorySerializer(many=True, read_only=True)
+    total_price = serializers.SerializerMethodField()
+    
     class Meta:
         model = Ticket
-        fields = ['id', 'user', 'event', 'category', 'price', 'ticket_count', 'single_tickets']
+        fields = ['id', 'uuid', 'user', 'event', 'categories', 'total_price', 'created_at']
+    
+    def get_total_price(self, obj):
+        return obj.get_total_price()
 
 class BuyTicketSerializer(serializers.Serializer):
     user = serializers.IntegerField()
-    ticket_count = serializers.IntegerField()
-    category = serializers.ChoiceField(choices=Ticket.CATEGORY_CHOICES)
     event = serializers.PrimaryKeyRelatedField(queryset=Event.objects.all())
+    tickets = serializers.DictField(child=serializers.IntegerField(min_value=1))
 
     def validate_user(self, value):
         User = get_user_model()
         try:
             user = User.objects.get(id=value)
-            return value
+            return value # On return l'id de l'user
         except User.DoesNotExist:
             raise serializers.ValidationError("L'utilisateur spécifié n'existe pas.")
 
-    def validate_ticket_count(self, value):
-        if value <= 0:
-            raise serializers.ValidationError("Le nombre de tickets doit être supérieur à 0")
-        return value
-
-    def validate_category(self, value):
-        valid_categories = [choice[0] for choice in Ticket.CATEGORY_CHOICES]
-        if value not in valid_categories:
-            raise serializers.ValidationError("La catégorie de ticket doit être Silver, Gold ou Platinium")
+    def validate_tickets(self, value):
+        valid_categories = ["Silver", "Gold", "Platinium"]
+        for category in value.keys():
+            if category not in valid_categories:
+                raise serializers.ValidationError(f"La catégorie {category} n'est pas valide. Utilisez Silver, Gold ou Platinium.")
         return value
 
     def create(self, validated_data):
-        category = validated_data.get("category")
-        ticket_count = validated_data.get("ticket_count")
+        user_id = validated_data.get("user")
         event = validated_data.get("event")
-        user = validated_data.get("user")
+        tickets_data = validated_data.get("tickets")
+        
+        User = get_user_model()
+        user = User.objects.get(id=user_id)
         
         price_mapping = {
-            "Silver": 50.00,
-            "Gold": 100.00,
-            "Platinium": 150.00
+            "Silver": 100.00,
+            "Gold": 150.00,
+            "Platinium": 200.00
         }
-        price = price_mapping.get(category)
         
+        # Ticket principal
         ticket = Ticket.objects.create(
             user=user,
             event=event,
-            category=category,
-            price=price,
-            ticket_count=ticket_count
         )
+        
+        # Categorie tickets
+        for category, count in tickets_data.items():
+            price = price_mapping.get(category)
+            TicketCategory.objects.create(
+                ticket=ticket,
+                category=category,
+                count=count,
+                price=price
+            )
         
         return ticket

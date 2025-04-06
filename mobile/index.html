@@ -41,80 +41,114 @@
     <main class="dashboard">
         <h1 class="page-title">Matchs à venir</h1>
         <div class="matches-grid" id="matchesGrid">
-            <!-- Les matchs seront insérés ici dynamiquement -->
+            <!-- On mettra ici via le JS -->
         </div>
     </main>
     
-    <div id="ticketModal" class="modal">
-        <div class="modal-content">
-            <button id="closeModal" class="modal-close">×</button>
-            <h2 class="modal-title">Achat de tickets</h2>
-            
-            <div class="modal-info">
-                <div class="modal-info-item">
-                    🗓 <span id="modalMatchDate"></span>
-                </div>
-                <div class="modal-info-item">
-                    🏟 <span id="modalStadium"></span>
-                </div>
-                <div class="modal-info-item">
-                    ⚽ <span id="modalTeams"></span>
-                </div>
+    <!-- Modal d'achat de tickets -->
+<div id="ticketModal" class="modal">
+    <div class="modal-content">
+        <button id="closeModal" class="modal-close">×</button>
+        <h2 class="modal-title">Achat de tickets</h2>
+        
+        <!-- Informations du match -->
+        <div class="modal-info">
+            <div class="modal-info-item">
+                🗓 <span id="modalMatchDate"></span>
             </div>
-    
-            <form id="ticketForm" class="modal-form">
-                <div class="form-group">
-                    <label>Catégorie</label>
-                    <div class="category-options">
-                        <label class="category-option">
-                            <input type="radio" name="category" id="ticketCategory" value="platinium" checked>
-                            <div class="category-label">
-                                <span class="category-name">Platinium</span>
-                                <span class="category-price">200 €</span>
-                            </div>
-                        </label>
-                        
-                        <label class="category-option">
-                            <input type="radio" name="category" value="gold">
-                            <div class="category-label">
-                                <span class="category-name">Gold</span>
-                                <span class="category-price">150 €</span>
-                            </div>
-                        </label>
-                        
-                        <label class="category-option">
-                            <input type="radio" name="category" value="silver">
-                            <div class="category-label">
-                                <span class="category-name">Silver</span>
-                                <span class="category-price">100 €</span>
-                            </div>
-                        </label>
+            <div class="modal-info-item">
+                🏟 <span id="modalStadium"></span>
+            </div>
+            <div class="modal-info-item">
+                ⚽ <span id="modalTeams"></span>
+            </div>
+        </div>
+
+        <!-- Formulaire de sélection des tickets -->
+        <form id="ticketForm" class="modal-form">
+            <div class="form-group">
+                <label>Sélectionnez vos tickets par catégorie</label>
+                <div class="categories-container">
+                    <!-- Catégorie Platinum -->
+                    <div class="category-item">
+                        <div class="category-badge">Premium</div>
+                        <div class="category-header">
+                            <span class="category-name">Platinum</span>
+                            <span class="category-price">200 €</span>
+                        </div>
+                        <div class="category-features">
+                            <ul>
+                                <li>Places centrales</li>
+                                <li>Accès lounge VIP</li>
+                            </ul>
+                        </div>
+                        <div class="category-quantity">
+                            <button type="button" class="qty-btn qty-minus" data-category="platinium">-</button>
+                            <input type="number" class="ticket-quantity" id="platiniumQuantity" name="platinium" min="0" max="10" value="0">
+                            <button type="button" class="qty-btn qty-plus" data-category="platinium">+</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Catégorie Gold -->
+                    <div class="category-item">
+                        <div class="category-badge popular">Populaire</div>
+                        <div class="category-header">
+                            <span class="category-name">Gold</span>
+                            <span class="category-price">150 €</span>
+                        </div>
+                        <div class="category-features">
+                            <ul>
+                                <li>Bonne visibilité</li>
+                                <li>Accès anticipé</li>
+                            </ul>
+                        </div>
+                        <div class="category-quantity">
+                            <button type="button" class="qty-btn qty-minus" data-category="gold">-</button>
+                            <input type="number" class="ticket-quantity" id="goldQuantity" name="gold" min="0" max="10" value="0">
+                            <button type="button" class="qty-btn qty-plus" data-category="gold">+</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Catégorie Silver -->
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-name">Silver</span>
+                            <span class="category-price">100 €</span>
+                        </div>
+                        <div class="category-features">
+                            <ul>
+                                <li>Places standard</li>
+                                <li>Bon rapport qualité/prix</li>
+                            </ul>
+                        </div>
+                        <div class="category-quantity">
+                            <button type="button" class="qty-btn qty-minus" data-category="silver">-</button>
+                            <input type="number" class="ticket-quantity" id="silverQuantity" name="silver" min="0" max="10" value="0">
+                            <button type="button" class="qty-btn qty-plus" data-category="silver">+</button>
+                        </div>
                     </div>
                 </div>
-    
-                <div class="form-group">
-                    <label for="ticketQuantity">Nombre de places</label>
-                    <input 
-                        type="number" 
-                        id="ticketQuantity" 
-                        name="quantity" 
-                        min="1" 
-                        max="10" 
-                        value="1" 
-                        required>
-                </div>
-    
+            </div>
+            
+            <!-- Récapitulatif de la commande -->
+            <div class="ticket-summary-container">
                 <div class="price-summary">
                     <span class="price-label">Total</span>
-                    <span id="totalPrice" class="price-amount">200 €</span>
+                    <span id="totalPrice" class="price-amount">0 €</span>
                 </div>
-    
-                <button type="submit" class="modal-submit">
-                    🎟 Confirmer l'achat
-                </button>
-            </form>
-        </div>
+            
+                <div id="ticketSummary" class="ticket-summary">
+                    <!-- On mettra ici via le JS -->
+                </div>
+            </div>
+            
+            <!-- Bouton de confirmation -->
+            <button type="submit" class="modal-submit" id="confirmPurchase" disabled>
+                🎟 Confirmer l'achat
+            </button>
+        </form>
     </div>
+</div>
 
     <div class="notification" id="notification">
         <div class="notification-content">

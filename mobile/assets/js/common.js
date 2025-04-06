@@ -4,28 +4,40 @@ window.APP = window.APP || {};
 
 window.APP.STADIUMS = null;
 
+/* Lorsque quelqu'un rejoins le site on récupère les stades directement */
 document.addEventListener('DOMContentLoaded', async () => {
     window.APP.STADIUMS = await fetchData("stadiums");
 });
 
+/*
+Nous permet d'afficher des notifications en bas à droite
+de l'écran de l'utilisateur
+*/
 function showNotification(message, time) {
     const notification = document.getElementById('notification');
     const notificationMessage = document.getElementById('notificationMessage');
     notificationMessage.textContent = message;
     notification.classList.add('show');
     
-    // Après 5sec on cache automatiquement la notif (5sec par défault)
     setTimeout(hideNotification, time != null ? time : 5000);
 }
 
+/*
+Permet de cacher une notification
+(normalement pas besoin de l'appeler, showNotification le fais déjà)
+ */
 function hideNotification() {
     const notification = document.getElementById('notification');
     notification.classList.remove('show');
 }
 
+/*
+Permet de récupérer un cookie par son nom, on utilise ça
+pour récupérer le token CSRF de Django afin de pouvoir envoyer des
+requêtes POST
+*/
 async function getCookie(name) {
     try {
-        console.log("called")
         if (!document.cookie || document.cookie === "") return null;
 
         const cookie = document.cookie
@@ -43,6 +55,10 @@ async function getCookie(name) {
     }
 }
 
+/*
+Permet de récupérer les données depuis l'API django
+(comme un fetch mais version django quoi)
+*/
 async function fetchData(...routes) {
     const path = routes.join('/');
     const url = `http://localhost:8000/api/${path}`;
@@ -70,21 +86,24 @@ async function fetchData(...routes) {
     }
 }
 
-
+/*
+Permet de faire une requête POST vers l'API Django
+*/
 async function post(bodyParameters, ...routes) {
-    // Construire l'URL avec les segments de route
     const path = routes.join('/');
     const url = `http://localhost:8000/api/${path}/`;
 
     try {
         if (!CSRF_TOKEN) {
-            await fetchData("stadiums"); // Pour avoir le cookie
+            // Si l'utilisateur ne possède pas de token alors on fait un
+            // fetch dans le vide afin de pouvoir récupérer le token
+            await fetchData("stadiums");
             CSRF_TOKEN = await getCookie('csrftoken');
             if (!CSRF_TOKEN) {
                 throw new Error('CSRF Token non trouvé');
             }
         }
-
+        console.log("TOKEN" + CSRF_TOKEN);
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -94,6 +113,8 @@ async function post(bodyParameters, ...routes) {
             credentials: 'include',
             body: JSON.stringify(bodyParameters)
         });
+
+        console.log(response);
 
         if (!response.ok) {
             throw new Error(`Erreur HTTP ! statut : ${response.status}`);
@@ -108,48 +129,21 @@ async function post(bodyParameters, ...routes) {
     }
 }
 
+/*
+Permet de savoir si l'utilisateur est connecté ou non
+TODO: check si cela n'est pas exploitable
+*/
 function isAuthenticated() {
     return !!localStorage.getItem('username');
 }
 
-function getUserData() {
-    const userData = localStorage.getItem('userData');
-    return userData ? JSON.parse(userData) : null;
-}
-
-// Fonction pour les requêtes authentifiées
-async function authenticatedFetch(url, options = {}) {
-    if (!isAuthenticated()) {
-        throw new Error("Impossible d'utiliser cette requête sans compte.");
-    }
-
-    try {
-        const response = await fetch(url, {
-            ...options,
-            credentials: 'include'
-        });
-
-        if (response.status === 401) {
-            clearSession();
-            window.location.href = '/login';
-            throw new Error('Session expirée');
-        }
-
-        return response;
-    } catch (error) {
-        console.error('Erreur requête authentifiée:', error);
-        throw error;
-    }
-}
-
+/*
+Permet de clear la session d'un utilsateur
+(lors d'une déconnection)
+*/
 function clearSession() {
     localStorage.removeItem('username');
     localStorage.removeItem('userData');
-}
-
-function getCachedUserData() {
-    const userData = localStorage.getItem('userData');
-    return userData ? JSON.parse(userData) : null;
 }
 
 // On écrit dans le prototype de String pour rajouter la methdode format

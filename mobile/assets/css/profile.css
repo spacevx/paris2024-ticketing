@@ -568,7 +568,7 @@ body {
     align-items: center;
 }
 
-.slider-control {
+/* .slider-control {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -599,7 +599,7 @@ body {
     background: var(--accent-color);
     transform: translateY(-50%) scale(1.1);
     box-shadow: 0 4px 12px rgba(255, 0, 124, 0.25);
-}
+} */
 
 .slider-counter {
     position: absolute;

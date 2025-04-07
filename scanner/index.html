@@ -1,13 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Scaner</title>
-		<script src="index.js"></script>
-		<link rel="stylesheet" href="index.css" />
-	</head>
-	<body>
-		<h1>Scanner de ticket</h1>
-	</body>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paris 2024 - Scanner QR Code</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="./assets/css/scanner.css" rel="stylesheet">
+</head>
+<body>
+    <main class="scanner-container">
+        <h1 class="page-title">Scanner de billet</h1>
+        
+        <div class="scanner-wrapper">
+            <div class="video-container">
+                <video id="scannerVideo" playsinline autoplay></video>
+                <div class="scanner-overlay">
+                    <div class="scanner-target">
+                        <div class="scan-line"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="control-panel">
+                <button id="startButton" class="scan-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <rect x="7" y="7" width="3" height="3"></rect>
+                        <rect x="14" y="7" width="3" height="3"></rect>
+                        <rect x="7" y="14" width="3" height="3"></rect>
+                        <rect x="14" y="14" width="3" height="3"></rect>
+                    </svg>
+                    Démarrer
+                </button>
+                <button id="toggleCameraButton" class="scan-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 19H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v9"></path>
+                        <line x1="8" y1="9" x2="16" y2="9"></line>
+                        <line x1="8" y1="13" x2="14" y2="13"></line>
+                        <path d="m17 17 5 5m0-5-5 5"></path>
+                    </svg>
+                    Changer caméra
+                </button>
+            </div>
+        </div>
+
+        <div id="resultContainer" class="result-container">
+            <div class="result-header">Résultat du scan</div>
+            <div id="ticketDetails" class="ticket-details">
+                <p class="scan-instruction">Veuillez scanner un QR code de billet</p>
+            </div>
+        </div>
+    </main>
+
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <div class="notification-title">Scan de QR Code</div>
+            <div class="notification-message" id="notificationMessage"></div>
+        </div>
+        <button class="notification-close" onclick="hideNotification()">×</button>
+    </div>
+
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/scanner.js"></script>
+</body>
 </html>

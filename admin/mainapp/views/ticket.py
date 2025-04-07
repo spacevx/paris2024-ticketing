@@ -11,14 +11,39 @@ from django.contrib.auth import get_user_model
 class TicketView(APIView):
     def get(self, request, pk=None):
         try:
-            # Si clé primaire alors on cherche via l'uuid
             if pk:
-                ticket = Ticket.objects.get(uuid=pk)
-                serializer = TicketSerializer(ticket)
-                return Response(serializer.data)
+                try:
+                    ticket = Ticket.objects.get(uuid=pk)
+                    serializer = TicketSerializer(ticket)
+                    return Response(serializer.data)
+                except Ticket.DoesNotExist:
+                    # Si on ne trouve pas le ticket on check les SingleTicket
+                    try:
+                        from ..models import SingleTicket
+                        single_ticket = SingleTicket.objects.get(uuid=pk)
+                        # Ticket parent via la catégorie
+                        ticket = single_ticket.category.ticket
+                        serializer = TicketSerializer(ticket)
+                        print("Ticket trouvé via SingleTicket")
+                        return Response(serializer.data)
+                    except SingleTicket.DoesNotExist:
+                        # (uuid-category-index)
+                        if '-' in pk:
+                            parts = pk.split('-')
+                            if len(parts) >= 2:
+                                ticket_uuid = parts[0]
+                                try:
+                                    ticket = Ticket.objects.get(uuid=ticket_uuid)
+                                    serializer = TicketSerializer(ticket)
+                                    return Response(serializer.data)
+                                except Ticket.DoesNotExist:
+                                    pass
+                        
+                        return Response({
+                            "message": f"Ticket avec l'UUID {pk} non trouvé"
+                        }, status=status.HTTP_404_NOT_FOUND)
             
-            # Sinon on récupère tous les tickets
-            # distinct() pour éviter les doublons quand on a plusieurs catégories
+            # Vraiment pas fou mais au cas ou, on récupére tous les tickets et on check
             tickets = Ticket.objects.all().order_by('-created_at')
             serializer = TicketSerializer(tickets, many=True)
             
@@ -29,10 +54,10 @@ class TicketView(APIView):
             
             return Response(serializer.data)
 
-        except Ticket.DoesNotExist:
+        except Exception as error:
             return Response({
-                "message": f"Ticket avec l'UUID {pk} non trouvé"
-            }, status=status.HTTP_404_NOT_FOUND)
+                "message": f"Erreur lors de la récupération du ticket: {str(error)}"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class BuyTicketView(APIView):
     def post(self, request):

@@ -14,14 +14,14 @@ et mettez vos accès MySQL dans `DATABASES`. Vous n'avez pas besoin de créer la
 cela sera fait automatiquement.
 
 Une fois cela fait, il faut utiliser les commandes suivantes (depuis le dossier admin) pour faire les migrations :
-```
-python manage.py makemigrations mainapp
-python manage.py migrate mainapp
+```bash
+python manage.py makemigrations
+python manage.py migrate
 ```
 
 Il faut bien exécuter les commandes dans l'ordre.
 Une fois cela fait, exécutez la commande suivante (toujours depuis le dossier admin) afin de mettre les données par défaut :
-```
+```bash
 python manage.py loaddata mainapp/fixtures/initial_data.json
 ```
 
@@ -43,7 +43,7 @@ python manage.py runserver
 
 Pour accéder au menu administrateur, ouvrez votre navigateur et entrez l'adresse suivante :
 
-```
+```bash
 http://127.0.0.1:8000/myadmin
 ```
 (L'URL http://127.0.0.1:8000/admin étant l'interface admin de base de Django)

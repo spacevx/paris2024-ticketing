@@ -1,0 +1,352 @@
+[
+  {
+    "model": "mainapp.team",
+    "pk": 1,
+    "fields": {
+      "name": "France",
+      "code": "FR",
+      "nickname": "Les Bleus"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 2,
+    "fields": {
+      "name": "États-Unis",
+      "code": "US",
+      "nickname": "Team USA"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 3,
+    "fields": {
+      "name": "Guinée",
+      "code": "GN",
+      "nickname": "Syli National"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 4,
+    "fields": {
+      "name": "Nouvelle-Zélande",
+      "code": "NZ",
+      "nickname": "All Whites"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 5,
+    "fields": {
+      "name": "Argentine",
+      "code": "AR",
+      "nickname": "La Albiceleste"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 6,
+    "fields": {
+      "name": "Maroc",
+      "code": "MA",
+      "nickname": "Les Lions de l Atlas"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 7,
+    "fields": {
+      "name": "Irak",
+      "code": "IQ",
+      "nickname": "Lions de Mésopotamie"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 8,
+    "fields": {
+      "name": "Ukraine",
+      "code": "UA",
+      "nickname": "Les Jaunes et Bleus"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 9,
+    "fields": {
+      "name": "Ouzbékistan",
+      "code": "UZ",
+      "nickname": "Les Loups Blancs"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 10,
+    "fields": {
+      "name": "Espagne",
+      "code": "ES",
+      "nickname": "La Roja"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 11,
+    "fields": {
+      "name": "Égypte",
+      "code": "EG",
+      "nickname": "Les Pharaons"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 12,
+    "fields": {
+      "name": "République Dominicaine",
+      "code": "DO",
+      "nickname": "Los Quisqueyanos"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 13,
+    "fields": {
+      "name": "Japon",
+      "code": "JP",
+      "nickname": "Samurai Blue"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 14,
+    "fields": {
+      "name": "Paraguay",
+      "code": "PY",
+      "nickname": "Los Guaraníes"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 15,
+    "fields": {
+      "name": "Mali",
+      "code": "ML",
+      "nickname": "Les Aigles"
+    }
+  },
+  {
+    "model": "mainapp.team",
+    "pk": 16,
+    "fields": {
+      "name": "Israël",
+      "code": "IL",
+      "nickname": "The Blues and Whites"
+    }
+  },
+  {
+    "model": "mainapp.stadium",
+    "pk": 1,
+    "fields": {
+      "name": "Stade de France",
+      "location": "Saint-Denis"
+    }
+  },
+  {
+    "model": "mainapp.stadium",
+    "pk": 2,
+    "fields": {
+      "name": "Parc des Princes",
+      "location": "Paris"
+    }
+  },
+  {
+    "model": "mainapp.stadium",
+    "pk": 3,
+    "fields": {
+      "name": "Groupama Stadium",
+      "location": "Lyon"
+    }
+  },
+  {
+    "model": "mainapp.stadium",
+    "pk": 4,
+    "fields": {
+      "name": "Stade Vélodrome",
+      "location": "Marseille"
+    }
+  },
+  {
+    "model": "mainapp.stadium",
+    "pk": 5,
+    "fields": {
+      "name": "Stade Pierre-Mauroy",
+      "location": "Lille"
+    }
+  },
+  {
+    "model": "mainapp.stadium",
+    "pk": 6,
+    "fields": {
+      "name": "Allianz Riviera",
+      "location": "Nice"
+    }
+  },
+  {
+    "model": "mainapp.stadium",
+    "pk": 7,
+    "fields": {
+      "name": "Matmut Atlantique",
+      "location": "Bordeaux"
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 1,
+    "fields": {
+      "start": "2024-07-24T18:00:00Z",
+      "stadium": 1,
+      "team_home": 2,
+      "team_away": 1
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 2,
+    "fields": {
+      "start": "2024-07-24T21:00:00Z",
+      "stadium": 2,
+      "team_home": 4,
+      "team_away": 3
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 3,
+    "fields": {
+      "start": "2024-07-25T18:00:00Z",
+      "stadium": 3,
+      "team_home": 6,
+      "team_away": 5
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 4,
+    "fields": {
+      "start": "2024-07-25T21:00:00Z",
+      "stadium": 4,
+      "team_home": 8,
+      "team_away": 7
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 5,
+    "fields": {
+      "start": "2024-07-26T18:00:00Z",
+      "stadium": 5,
+      "team_home": 10,
+      "team_away": 9
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 6,
+    "fields": {
+      "start": "2024-07-26T21:00:00Z",
+      "stadium": 6,
+      "team_home": 12,
+      "team_away": 11
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 7,
+    "fields": {
+      "start": "2024-07-27T18:00:00Z",
+      "stadium": 7,
+      "team_home": 14,
+      "team_away": 13
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 8,
+    "fields": {
+      "start": "2024-07-27T21:00:00Z",
+      "stadium": 1,
+      "team_home": 16,
+      "team_away": 15
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 9,
+    "fields": {
+      "start": "2024-07-31T18:00:00Z",
+      "stadium": 2,
+      "team_home": null,
+      "team_away": null
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 10,
+    "fields": {
+      "start": "2024-07-31T21:00:00Z",
+      "stadium": 3,
+      "team_home": null,
+      "team_away": null
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 11,
+    "fields": {
+      "start": "2024-08-01T18:00:00Z",
+      "stadium": 4,
+      "team_home": null,
+      "team_away": null
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 12,
+    "fields": {
+      "start": "2024-08-01T21:00:00Z",
+      "stadium": 5,
+      "team_home": null,
+      "team_away": null
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 13,
+    "fields": {
+      "start": "2024-08-04T18:00:00Z",
+      "stadium": 6,
+      "team_home": null,
+      "team_away": null
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 14,
+    "fields": {
+      "start": "2024-08-04T21:00:00Z",
+      "stadium": 7,
+      "team_home": null,
+      "team_away": null
+    }
+  },
+  {
+    "model": "mainapp.event",
+    "pk": 15,
+    "fields": {
+      "start": "2024-08-07T20:00:00Z",
+      "stadium": 1,
+      "team_home": null,
+      "team_away": null
+    }
+  }
+]

@@ -50,7 +50,6 @@ body {
 
 .register-hero {
     flex: 1;
-    background: url('/api/placeholder/800/600') center center/cover;
     padding: 2rem;
     display: flex;
     flex-direction: column;

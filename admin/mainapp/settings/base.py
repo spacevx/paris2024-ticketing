@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -122,11 +123,15 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5500",
+    'http://localhost:63342',
+    'http://127.0.0.1:63342',
     "http://127.0.0.1:8000",
 ]
 ALLOWED_HOSTS = [
     'localhost',
-    '127.0.0.1:5500',
+    '127.0.0.1:5500', # Live Server VSCODE
+    '127.0.0.1:63342', # Live Server PyCharm
+    'localhost:63342', # Live Server PyCharm
     '127.0.0.1',
     '127.0.0.1:8000',
 ]

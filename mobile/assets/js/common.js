@@ -36,23 +36,27 @@ Permet de récupérer un cookie par son nom, on utilise ça
 pour récupérer le token CSRF de Django afin de pouvoir envoyer des
 requêtes POST
 */
-async function getCookie(name) {
-    try {
-        if (!document.cookie || document.cookie === "") return null;
-
-        const cookie = document.cookie
-            .split(';')
-            .map(c => c.trim())
-            .find(c => c.startsWith(`${name}=`));
-
-        return cookie
-            ? decodeURIComponent(cookie.substring(name.length + 1))
-            : null;
-
-    } catch (error) {
-        console.error('Erreur lors de la récupération du cookie:', error);
-        return null;
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, 'csrftoken'.length + 1) === ('csrftoken' + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring('csrftoken'.length + 1));
+                break;
+            }
+        }
     }
+
+    if (!cookieValue) {
+        const tokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+        if (tokenElement) {
+            cookieValue = tokenElement;
+        }
+    }
+
+    return cookieValue;
 }
 
 /*
@@ -98,7 +102,8 @@ async function post(bodyParameters, ...routes) {
             // Si l'utilisateur ne possède pas de token alors on fait un
             // fetch dans le vide afin de pouvoir récupérer le token
             await fetchData("stadiums");
-            CSRF_TOKEN = await getCookie('csrftoken');
+            CSRF_TOKEN = getCookie('csrftoken');
+            console.log("here", CSRF_TOKEN);
             if (!CSRF_TOKEN) {
                 throw new Error('CSRF Token non trouvé');
             }

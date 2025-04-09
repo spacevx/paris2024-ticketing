@@ -73,15 +73,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const sliderContainer = document.createElement('div');
                     sliderContainer.className = 'qr-slider';
                     
-                    // const prevButton = document.createElement('button');
-                    // prevButton.className = 'slider-control prev';
-                    // prevButton.setAttribute('aria-label', 'Billet précédent');
-                    // prevButton.innerHTML = '←';
+                    const prevButton = document.createElement('button');
+                    prevButton.className = 'slider-control prev';
+                    prevButton.setAttribute('aria-label', 'Billet précédent');
+                    prevButton.innerHTML = '←';
                     
-                    // const nextButton = document.createElement('button');
-                    // nextButton.className = 'slider-control next';
-                    // nextButton.setAttribute('aria-label', 'Billet suivant');
-                    // nextButton.innerHTML = '→';
+                    const nextButton = document.createElement('button');
+                    nextButton.className = 'slider-control next';
+                    nextButton.setAttribute('aria-label', 'Billet suivant');
+                    nextButton.innerHTML = '→';
                     
                     const counter = document.createElement('div');
                     counter.className = 'slider-counter';
@@ -89,9 +89,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const qrDisplay = document.createElement('div');
                     qrDisplay.className = 'qr-display';
                     
-                    // sliderContainer.appendChild(prevButton);
+                    sliderContainer.appendChild(prevButton);
                     sliderContainer.appendChild(qrDisplay);
-                    // sliderContainer.appendChild(nextButton);
+                    sliderContainer.appendChild(nextButton);
                     sliderContainer.appendChild(counter);
                     
                     let currentIndex = 0;
@@ -110,15 +110,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                         });
                     }
                     
-                    // prevButton.onclick = () => {
-                    //     currentIndex = (currentIndex - 1 + categoryData.single_tickets.length) % categoryData.single_tickets.length;
-                    //     updateQRCode();
-                    // };
+                    prevButton.onclick = () => {
+                        currentIndex = (currentIndex - 1 + categoryData.single_tickets.length) % categoryData.single_tickets.length;
+                        updateQRCode();
+                    };
                     
-                    // nextButton.onclick = () => {
-                    //     currentIndex = (currentIndex + 1) % categoryData.single_tickets.length;
-                    //     updateQRCode();
-                    // };
+                    nextButton.onclick = () => {
+                        currentIndex = (currentIndex + 1) % categoryData.single_tickets.length;
+                        updateQRCode();
+                    };
                     
                     qrWrapper.appendChild(sliderContainer);
                     updateQRCode();
@@ -126,15 +126,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const sliderContainer = document.createElement('div');
                     sliderContainer.className = 'qr-slider';
                     
-                    // const prevButton = document.createElement('button');
-                    // prevButton.className = 'slider-control prev';
-                    // prevButton.setAttribute('aria-label', 'Billet précédent');
-                    // prevButton.innerHTML = '←';
+                    const prevButton = document.createElement('button');
+                    prevButton.className = 'slider-control prev';
+                    prevButton.setAttribute('aria-label', 'Billet précédent');
+                    prevButton.innerHTML = '←';
                     
-                    // const nextButton = document.createElement('button');
-                    // nextButton.className = 'slider-control next';
-                    // nextButton.setAttribute('aria-label', 'Billet suivant');
-                    // nextButton.innerHTML = '→';
+                    const nextButton = document.createElement('button');
+                    nextButton.className = 'slider-control next';
+                    nextButton.setAttribute('aria-label', 'Billet suivant');
+                    nextButton.innerHTML = '→';
                     
                     const counter = document.createElement('div');
                     counter.className = 'slider-counter';
@@ -142,9 +142,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const qrDisplay = document.createElement('div');
                     qrDisplay.className = 'qr-display';
                     
-                    // sliderContainer.appendChild(prevButton);
+                    sliderContainer.appendChild(prevButton);
                     sliderContainer.appendChild(qrDisplay);
-                    // sliderContainer.appendChild(nextButton);
+                    sliderContainer.appendChild(nextButton);
                     sliderContainer.appendChild(counter);
                     
                     let currentIndex = 0;
@@ -163,15 +163,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                         });
                     }
                     
-                    // prevButton.onclick = () => {
-                    //     currentIndex = (currentIndex - 1 + categoryData.count) % categoryData.count;
-                    //     updateQRCode();
-                    // };
+                    prevButton.onclick = () => {
+                        currentIndex = (currentIndex - 1 + categoryData.count) % categoryData.count;
+                        updateQRCode();
+                    };
                     
-                    // nextButton.onclick = () => {
-                    //     currentIndex = (currentIndex + 1) % categoryData.count;
-                    //     updateQRCode();
-                    // };
+                    nextButton.onclick = () => {
+                        currentIndex = (currentIndex + 1) % categoryData.count;
+                        updateQRCode();
+                    };
                     
                     qrWrapper.appendChild(sliderContainer);
                     updateQRCode();
@@ -198,20 +198,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const sliderContainer = document.createElement('div');
                 sliderContainer.className = 'qr-slider';
                 
-                // const prevButton = document.createElement('button');
-                // prevButton.className = 'slider-control prev';
-                // prevButton.setAttribute('aria-label', 'Billet précédent');
-                // prevButton.innerHTML = '←';
+                const prevButton = document.createElement('button');
+                prevButton.className = 'slider-control prev';
+                prevButton.setAttribute('aria-label', 'Billet précédent');
+                prevButton.innerHTML = '←';
                 
-                // const nextButton = document.createElement('button');
-                // nextButton.className = 'slider-control next';
-                // nextButton.setAttribute('aria-label', 'Billet suivant');
-                // nextButton.innerHTML = '→';
+                const nextButton = document.createElement('button');
+                nextButton.className = 'slider-control next';
+                nextButton.setAttribute('aria-label', 'Billet suivant');
+                nextButton.innerHTML = '→';
                 
                 const counter = document.createElement('div');
                 counter.className = 'slider-counter';
                 
-                // sliderContainer.appendChild(prevButton);
+                sliderContainer.appendChild(prevButton);
                 sliderContainer.appendChild(qrWrapper);
                 sliderContainer.appendChild(nextButton);
                 sliderContainer.appendChild(counter);
@@ -232,15 +232,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     });
                 }
                 
-                // prevButton.onclick = () => {
-                //     currentIndex = (currentIndex - 1 + ticket.single_tickets.length) % ticket.single_tickets.length;
-                //     updateQRCode();
-                // };
+                prevButton.onclick = () => {
+                    currentIndex = (currentIndex - 1 + ticket.single_tickets.length) % ticket.single_tickets.length;
+                    updateQRCode();
+                };
                 
-                // nextButton.onclick = () => {
-                //     currentIndex = (currentIndex + 1) % ticket.single_tickets.length;
-                //     updateQRCode();
-                // };
+                nextButton.onclick = () => {
+                    currentIndex = (currentIndex + 1) % ticket.single_tickets.length;
+                    updateQRCode();
+                };
                 
                 modalBody.appendChild(sliderContainer);
                 updateQRCode();
@@ -248,20 +248,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const sliderContainer = document.createElement('div');
                 sliderContainer.className = 'qr-slider';
                 
-                // const prevButton = document.createElement('button');
-                // prevButton.className = 'slider-control prev';
-                // prevButton.setAttribute('aria-label', 'Billet précédent');
-                // prevButton.innerHTML = '←';
+                const prevButton = document.createElement('button');
+                prevButton.className = 'slider-control prev';
+                prevButton.setAttribute('aria-label', 'Billet précédent');
+                prevButton.innerHTML = '←';
                 
-                // const nextButton = document.createElement('button');
-                // nextButton.className = 'slider-control next';
-                // nextButton.setAttribute('aria-label', 'Billet suivant');
-                // nextButton.innerHTML = '→';
+                const nextButton = document.createElement('button');
+                nextButton.className = 'slider-control next';
+                nextButton.setAttribute('aria-label', 'Billet suivant');
+                nextButton.innerHTML = '→';
                 
                 const counter = document.createElement('div');
                 counter.className = 'slider-counter';
                 
-                // sliderContainer.appendChild(prevButton);
+                sliderContainer.appendChild(prevButton);
                 sliderContainer.appendChild(qrWrapper);
                 sliderContainer.appendChild(nextButton);
                 sliderContainer.appendChild(counter);
@@ -282,15 +282,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     });
                 }
                 
-                // prevButton.onclick = () => {
-                //     currentIndex = (currentIndex - 1 + ticket.ticket_count) % ticket.ticket_count;
-                //     updateQRCode();
-                // };
+                prevButton.onclick = () => {
+                    currentIndex = (currentIndex - 1 + ticket.ticket_count) % ticket.ticket_count;
+                    updateQRCode();
+                };
                 
-                // nextButton.onclick = () => {
-                //     currentIndex = (currentIndex + 1) % ticket.ticket_count;
-                //     updateQRCode();
-                // };
+                nextButton.onclick = () => {
+                    currentIndex = (currentIndex + 1) % ticket.ticket_count;
+                    updateQRCode();
+                };
                 
                 modalBody.appendChild(sliderContainer);
                 updateQRCode();

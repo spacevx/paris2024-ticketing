@@ -1,5 +1,11 @@
 # Projet JO - Documentation
 
+## Setup
+Il faut vous rendre dans le dossier admin et exécuter la commande
+```
+pip install -r requirements.txt
+```
+
 ## Dashboard Admin
 
 Pour accéder à l'interface administrateur, vous devez d'abord créer un compte `superuser` en utilisant la commande suivante :
@@ -14,7 +20,7 @@ Remplissez les informations nécessaires, puis lancez le serveur avec la command
 python manage.py runserver
 ```
 
-**Attention**: Ces commandes doivent être exécutées depuis le dossier ./admin
+**Attention**: Ces commandes doivent être exécutées depuis le dossier admin
 
 Pour accéder au menu administrateur, ouvrez votre navigateur et entrez l'adresse suivante :
 
@@ -25,5 +31,9 @@ http://127.0.0.1:8000/myadmin
 
 Vous devrez vous authentifier avec les identifiants que vous avez créés précédemment. Une fois authentifié, vous aurez accès à l'interface administrateur.
 
-TODO:
-- [ ] Fix le responsive pour les achats des tickets
+## Informations
+Bibliothèques python utilisées:
+ - Django
+ - Django Rest Framework
+ - Django Cors Headers
+ - MySQL Client

@@ -1,3 +1,7 @@
+@font-face {
+    font-family: 'Paris2024';
+    src: url('../fonts/Paris2024.ttf') format('truetype');
+}
 :root {
     font-size: 16px;
     --primary-color: #1B1F3B;
@@ -9,10 +13,6 @@
     --gradient-end: rgba(0, 174, 239, 0.1);
 }
 
-@font-face {
-    font-family: 'Paris2024';
-    src: url('../fonts/Paris2024.ttf') format('truetype');
-}
 
 * {
     margin: 0;

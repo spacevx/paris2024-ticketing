@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Paris2024';
+    src: url('../fonts/Paris2024.ttf') format('truetype');
+    font-display: swap;
+}
+
 :root {
     font-size: 16px;
     --primary-color: #1B1F3B;
@@ -18,7 +24,7 @@
 body {
     min-height: 100vh;
     background: var(--primary-color);
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Paris2024', system-ui, sans-serif;
     overflow-x: hidden;
     position: relative;
 }

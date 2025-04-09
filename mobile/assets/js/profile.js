@@ -73,109 +73,144 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const sliderContainer = document.createElement('div');
                     sliderContainer.className = 'qr-slider';
                     
-                    const prevButton = document.createElement('button');
-                    prevButton.className = 'slider-control prev';
-                    prevButton.setAttribute('aria-label', 'Billet précédent');
-                    prevButton.innerHTML = '←';
-                    
-                    const nextButton = document.createElement('button');
-                    nextButton.className = 'slider-control next';
-                    nextButton.setAttribute('aria-label', 'Billet suivant');
-                    nextButton.innerHTML = '→';
-                    
-                    const counter = document.createElement('div');
-                    counter.className = 'slider-counter';
-                    
                     const qrDisplay = document.createElement('div');
                     qrDisplay.className = 'qr-display';
-                    
-                    sliderContainer.appendChild(prevButton);
-                    sliderContainer.appendChild(qrDisplay);
-                    sliderContainer.appendChild(nextButton);
-                    sliderContainer.appendChild(counter);
-                    
+
                     let currentIndex = 0;
-                    
-                    function updateQRCode() {
-                        qrDisplay.innerHTML = '';
-                        counter.textContent = `${currentIndex + 1}/${categoryData.single_tickets.length}`;
-                        
-                        new QRCode(qrDisplay, {
-                            text: categoryData.single_tickets[currentIndex].uuid,
-                            width: 256,
-                            height: 256,
-                            colorDark: "#1B1F3B",
-                            colorLight: "#ffffff",
-                            correctLevel: QRCode.CorrectLevel.H
-                        });
+
+                    if (categoryData.single_tickets.length > 1) {
+                        const prevButton = document.createElement('button');
+                        prevButton.className = 'slider-control prev';
+                        prevButton.setAttribute('aria-label', 'Billet précédent');
+                        prevButton.innerHTML = '←';
+
+                        const nextButton = document.createElement('button');
+                        nextButton.className = 'slider-control next';
+                        nextButton.setAttribute('aria-label', 'Billet suivant');
+                        nextButton.innerHTML = '→';
+
+                        const counter = document.createElement('div');
+                        counter.className = 'slider-counter';
+
+                        sliderContainer.appendChild(prevButton);
+                        sliderContainer.appendChild(qrDisplay);
+                        sliderContainer.appendChild(nextButton);
+                        sliderContainer.appendChild(counter);
+
+                        prevButton.onclick = () => {
+                            currentIndex = (currentIndex - 1 + categoryData.single_tickets.length) % categoryData.single_tickets.length;
+                            updateQRCode();
+                        };
+
+                        nextButton.onclick = () => {
+                            currentIndex = (currentIndex + 1) % categoryData.single_tickets.length;
+                            updateQRCode();
+                        };
+
+                        function updateQRCode() {
+                            qrDisplay.innerHTML = '';
+                            counter.textContent = `${currentIndex + 1}/${categoryData.single_tickets.length}`;
+
+                            new QRCode(qrDisplay, {
+                                text: categoryData.single_tickets[currentIndex].uuid,
+                                width: 256,
+                                height: 256,
+                                colorDark: "#1B1F3B",
+                                colorLight: "#ffffff",
+                                correctLevel: QRCode.CorrectLevel.H
+                            });
+                        }
+                    } else {
+                        sliderContainer.appendChild(qrDisplay);
+
+                        function updateQRCode() {
+                            qrDisplay.innerHTML = '';
+
+                            new QRCode(qrDisplay, {
+                                text: categoryData.single_tickets[0].uuid,
+                                width: 256,
+                                height: 256,
+                                colorDark: "#1B1F3B",
+                                colorLight: "#ffffff",
+                                correctLevel: QRCode.CorrectLevel.H
+                            });
+                        }
                     }
-                    
-                    prevButton.onclick = () => {
-                        currentIndex = (currentIndex - 1 + categoryData.single_tickets.length) % categoryData.single_tickets.length;
-                        updateQRCode();
-                    };
-                    
-                    nextButton.onclick = () => {
-                        currentIndex = (currentIndex + 1) % categoryData.single_tickets.length;
-                        updateQRCode();
-                    };
-                    
+
                     qrWrapper.appendChild(sliderContainer);
                     updateQRCode();
                 } else if (categoryData.count > 1) {
                     const sliderContainer = document.createElement('div');
                     sliderContainer.className = 'qr-slider';
-                    
-                    const prevButton = document.createElement('button');
-                    prevButton.className = 'slider-control prev';
-                    prevButton.setAttribute('aria-label', 'Billet précédent');
-                    prevButton.innerHTML = '←';
-                    
-                    const nextButton = document.createElement('button');
-                    nextButton.className = 'slider-control next';
-                    nextButton.setAttribute('aria-label', 'Billet suivant');
-                    nextButton.innerHTML = '→';
-                    
-                    const counter = document.createElement('div');
-                    counter.className = 'slider-counter';
-                    
+
                     const qrDisplay = document.createElement('div');
                     qrDisplay.className = 'qr-display';
-                    
-                    sliderContainer.appendChild(prevButton);
-                    sliderContainer.appendChild(qrDisplay);
-                    sliderContainer.appendChild(nextButton);
-                    sliderContainer.appendChild(counter);
-                    
-                    let currentIndex = 0;
-                    
-                    function updateQRCode() {
-                        qrDisplay.innerHTML = '';
-                        counter.textContent = `${currentIndex + 1}/${categoryData.count}`;
-                        
-                        new QRCode(qrDisplay, {
-                            text: `${categoryData.uuid || ticket.uuid}-${categoryData.category}-${currentIndex + 1}`,
-                            width: 256,
-                            height: 256,
-                            colorDark: "#1B1F3B",
-                            colorLight: "#ffffff",
-                            correctLevel: QRCode.CorrectLevel.H
-                        });
+
+                    const counter = document.createElement('div');
+                    counter.className = 'slider-counter';
+
+                    if (categoryData.count > 1) {
+                        const prevButton = document.createElement('button');
+                        prevButton.className = 'slider-control prev';
+                        prevButton.setAttribute('aria-label', 'Billet précédent');
+                        prevButton.innerHTML = '←';
+
+                        const nextButton = document.createElement('button');
+                        nextButton.className = 'slider-control next';
+                        nextButton.setAttribute('aria-label', 'Billet suivant');
+                        nextButton.innerHTML = '→';
+
+                        sliderContainer.appendChild(prevButton);
+                        sliderContainer.appendChild(qrDisplay);
+                        sliderContainer.appendChild(nextButton);
+                        sliderContainer.appendChild(counter);
+
+                        let currentIndex = 0;
+
+                        function updateQRCode() {
+                            qrDisplay.innerHTML = '';
+                            counter.textContent = `${currentIndex + 1}/${categoryData.count}`;
+
+                            new QRCode(qrDisplay, {
+                                text: `${categoryData.uuid || ticket.uuid}-${categoryData.category}-${currentIndex + 1}`,
+                                width: 256,
+                                height: 256,
+                                colorDark: "#1B1F3B",
+                                colorLight: "#ffffff",
+                                correctLevel: QRCode.CorrectLevel.H
+                            });
+                        }
+
+                        prevButton.onclick = () => {
+                            currentIndex = (currentIndex - 1 + categoryData.count) % categoryData.count;
+                            updateQRCode();
+                        };
+
+                        nextButton.onclick = () => {
+                            currentIndex = (currentIndex + 1) % categoryData.count;
+                            updateQRCode();
+                        };
+                    } else {
+                        sliderContainer.appendChild(qrDisplay);
+
+                        function updateQRCode() {
+                            qrDisplay.innerHTML = '';
+
+                            new QRCode(qrDisplay, {
+                                text: `${categoryData.uuid || ticket.uuid}-${categoryData.category}-1`,
+                                width: 256,
+                                height: 256,
+                                colorDark: "#1B1F3B",
+                                colorLight: "#ffffff",
+                                correctLevel: QRCode.CorrectLevel.H
+                            });
+                        }
                     }
-                    
-                    prevButton.onclick = () => {
-                        currentIndex = (currentIndex - 1 + categoryData.count) % categoryData.count;
-                        updateQRCode();
-                    };
-                    
-                    nextButton.onclick = () => {
-                        currentIndex = (currentIndex + 1) % categoryData.count;
-                        updateQRCode();
-                    };
-                    
+
                     qrWrapper.appendChild(sliderContainer);
                     updateQRCode();
                 } else {
+                    // Pour un billet unique, pas de contrôles
                     new QRCode(qrWrapper, {
                         text: categoryData.uuid || (ticket.uuid ? `${ticket.uuid}-${categoryData.category}` : "ticket-error"),
                         width: 256,
@@ -186,93 +221,117 @@ document.addEventListener('DOMContentLoaded', async () => {
                     });
                 }
             }
-            
+
             if (selectedCategoryData) {
                 displayQRCodes(selectedCategoryData);
             }
         } else {
             const qrWrapper = document.createElement('div');
             qrWrapper.id = 'qrCodeContainer';
-            
+
             if (ticket.single_tickets && ticket.single_tickets.length > 0) {
                 const sliderContainer = document.createElement('div');
                 sliderContainer.className = 'qr-slider';
-                
-                const prevButton = document.createElement('button');
-                prevButton.className = 'slider-control prev';
-                prevButton.setAttribute('aria-label', 'Billet précédent');
-                prevButton.innerHTML = '←';
-                
-                const nextButton = document.createElement('button');
-                nextButton.className = 'slider-control next';
-                nextButton.setAttribute('aria-label', 'Billet suivant');
-                nextButton.innerHTML = '→';
-                
-                const counter = document.createElement('div');
-                counter.className = 'slider-counter';
-                
-                sliderContainer.appendChild(prevButton);
-                sliderContainer.appendChild(qrWrapper);
-                sliderContainer.appendChild(nextButton);
-                sliderContainer.appendChild(counter);
-                
+
+                const qrDisplay = document.createElement('div');
+                qrDisplay.className = 'qr-display';
+
                 let currentIndex = 0;
-                
-                function updateQRCode() {
-                    qrWrapper.innerHTML = '';
-                    counter.textContent = `${currentIndex + 1}/${ticket.single_tickets.length}`;
-                    
-                    new QRCode(qrWrapper, {
-                        text: ticket.single_tickets[currentIndex].uuid,
-                        width: 256,
-                        height: 256,
-                        colorDark: "#1B1F3B",
-                        colorLight: "#ffffff",
-                        correctLevel: QRCode.CorrectLevel.H
-                    });
+
+                // N'afficher les contrôles que s'il y a plus d'un billet
+                if (ticket.single_tickets.length > 1) {
+                    const prevButton = document.createElement('button');
+                    prevButton.className = 'slider-control prev';
+                    prevButton.setAttribute('aria-label', 'Billet précédent');
+                    prevButton.innerHTML = '←';
+
+                    const nextButton = document.createElement('button');
+                    nextButton.className = 'slider-control next';
+                    nextButton.setAttribute('aria-label', 'Billet suivant');
+                    nextButton.innerHTML = '→';
+
+                    const counter = document.createElement('div');
+                    counter.className = 'slider-counter';
+
+                    sliderContainer.appendChild(prevButton);
+                    sliderContainer.appendChild(qrDisplay);
+                    sliderContainer.appendChild(nextButton);
+                    sliderContainer.appendChild(counter);
+
+                    prevButton.onclick = () => {
+                        currentIndex = (currentIndex - 1 + ticket.single_tickets.length) % ticket.single_tickets.length;
+                        updateQRCode();
+                    };
+
+                    nextButton.onclick = () => {
+                        currentIndex = (currentIndex + 1) % ticket.single_tickets.length;
+                        updateQRCode();
+                    };
+
+                    function updateQRCode() {
+                        qrDisplay.innerHTML = '';
+                        counter.textContent = `${currentIndex + 1}/${ticket.single_tickets.length}`;
+
+                        new QRCode(qrDisplay, {
+                            text: ticket.single_tickets[currentIndex].uuid,
+                            width: 256,
+                            height: 256,
+                            colorDark: "#1B1F3B",
+                            colorLight: "#ffffff",
+                            correctLevel: QRCode.CorrectLevel.H
+                        });
+                    }
+                } else {
+                    sliderContainer.appendChild(qrDisplay);
+
+                    function updateQRCode() {
+                        qrDisplay.innerHTML = '';
+
+                        new QRCode(qrDisplay, {
+                            text: ticket.single_tickets[0].uuid,
+                            width: 256,
+                            height: 256,
+                            colorDark: "#1B1F3B",
+                            colorLight: "#ffffff",
+                            correctLevel: QRCode.CorrectLevel.H
+                        });
+                    }
                 }
-                
-                prevButton.onclick = () => {
-                    currentIndex = (currentIndex - 1 + ticket.single_tickets.length) % ticket.single_tickets.length;
-                    updateQRCode();
-                };
-                
-                nextButton.onclick = () => {
-                    currentIndex = (currentIndex + 1) % ticket.single_tickets.length;
-                    updateQRCode();
-                };
-                
+
                 modalBody.appendChild(sliderContainer);
                 updateQRCode();
             } else if (ticket.ticket_count > 1) {
                 const sliderContainer = document.createElement('div');
                 sliderContainer.className = 'qr-slider';
-                
+
+                const qrDisplay = document.createElement('div');
+                qrDisplay.className = 'qr-display';
+
                 const prevButton = document.createElement('button');
                 prevButton.className = 'slider-control prev';
                 prevButton.setAttribute('aria-label', 'Billet précédent');
                 prevButton.innerHTML = '←';
-                
+
                 const nextButton = document.createElement('button');
                 nextButton.className = 'slider-control next';
                 nextButton.setAttribute('aria-label', 'Billet suivant');
                 nextButton.innerHTML = '→';
-                
+
                 const counter = document.createElement('div');
                 counter.className = 'slider-counter';
-                
+
                 sliderContainer.appendChild(prevButton);
-                sliderContainer.appendChild(qrWrapper);
+                sliderContainer.appendChild(qrDisplay);
                 sliderContainer.appendChild(nextButton);
                 sliderContainer.appendChild(counter);
-                
+
                 let currentIndex = 0;
-                
+
                 function updateQRCode() {
-                    qrWrapper.innerHTML = '';
+                    qrDisplay.innerHTML = '';
                     counter.textContent = `${currentIndex + 1}/${ticket.ticket_count}`;
-                    
-                    new QRCode(qrWrapper, {
+
+                    new QRCode(qrDisplay, {
                         text: `${ticket.uuid}-${currentIndex + 1}`,
                         width: 256,
                         height: 256,

@@ -13,7 +13,7 @@ class TicketView(APIView):
         try:
             if pk:
                 try:
-                    ticket = Ticket.objects.get(uuid=pk)
+                    ticket = Ticket.objects.get(uuid=pk, user=request.user)
                     serializer = TicketSerializer(ticket)
                     return Response(serializer.data)
                 except Ticket.DoesNotExist:
@@ -23,8 +23,12 @@ class TicketView(APIView):
                         single_ticket = SingleTicket.objects.get(uuid=pk)
                         # Ticket parent via la catégorie
                         ticket = single_ticket.category.ticket
+                        if ticket.user != request.user:
+                            return Response({
+                                "message": "Vous n'êtes pas autorisé à accéder à ce ticket"
+                            }, status=status.HTTP_403_FORBIDDEN)
+
                         serializer = TicketSerializer(ticket)
-                        print("Ticket trouvé via SingleTicket")
                         return Response(serializer.data)
                     except SingleTicket.DoesNotExist:
                         # (uuid-category-index)
@@ -33,25 +37,24 @@ class TicketView(APIView):
                             if len(parts) >= 2:
                                 ticket_uuid = parts[0]
                                 try:
-                                    ticket = Ticket.objects.get(uuid=ticket_uuid)
+                                    ticket = Ticket.objects.get(uuid=ticket_uuid, user=request.user)
                                     serializer = TicketSerializer(ticket)
                                     return Response(serializer.data)
                                 except Ticket.DoesNotExist:
                                     pass
-                        
+
                         return Response({
                             "message": f"Ticket avec l'UUID {pk} non trouvé"
                         }, status=status.HTTP_404_NOT_FOUND)
-            
-            # Vraiment pas fou mais au cas ou, on récupére tous les tickets et on check
-            tickets = Ticket.objects.all().order_by('-created_at')
+
+            tickets = Ticket.objects.filter(user=request.user).order_by('-created_at')
             serializer = TicketSerializer(tickets, many=True)
-            
+
             if len(serializer.data) <= 0:
                 return Response({
                     "message": "Aucun ticket trouvé"
                 }, status=status.HTTP_200_OK)
-            
+
             return Response(serializer.data)
 
         except Exception as error:

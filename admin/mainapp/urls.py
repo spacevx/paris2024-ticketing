@@ -6,6 +6,7 @@ from django.contrib import admin
 urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('login/', views.LoginView.as_view(), name='auth_login'),
+    path('logout/', views.LogoutView.as_view(), name='auth_logout'),
 
     path('stadiums/', views.StadiumView.as_view(), name='stadiums-list'),  # Liste tous les stades
     path('teams/', views.TeamView.as_view(), name='teams-list'),  # Liste toutes les équipes

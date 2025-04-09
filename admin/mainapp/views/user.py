@@ -4,16 +4,15 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from django.contrib.auth import login
-from ..serializers import RegisterSerializer, LoginSerializer
+from ..serializers import RegisterSerializer, LoginSerializer, LogoutSerializer
 from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.urls import reverse_lazy
 
 class LoginView(APIView):
     def post(self, request):
-        serializer = LoginSerializer(data=request.data)
+        serializer = LoginSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             user = serializer.validated_data['user']
-            login(request, user) # Permet de metter en cache le user dans le back pour éviter qu'il est besoin de ce ré authentifier à chaque requête
             return Response({
                 'message': 'Connexion réussie',
                 'user': {
@@ -25,6 +24,16 @@ class LoginView(APIView):
                 }
             }, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutView(APIView):
+    def post(self, request):
+        print("ahcene")
+        serializer = LogoutSerializer(data={}, context={'request': request})
+        print("serializer is ok")
+        serializer.is_valid()
+        result = serializer.save()
+        print("jam result", result)
+        return Response(result, status=status.HTTP_200_OK)
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer

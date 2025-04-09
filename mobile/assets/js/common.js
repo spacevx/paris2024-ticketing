@@ -146,9 +146,10 @@ function isAuthenticated() {
 Permet de clear la session d'un utilsateur
 (lors d'une déconnection)
 */
-function clearSession() {
+async function clearSession() {
     localStorage.removeItem('username');
     localStorage.removeItem('userData');
+    await post({}, 'logout');
 }
 
 // On écrit dans le prototype de String pour rajouter la methdode format

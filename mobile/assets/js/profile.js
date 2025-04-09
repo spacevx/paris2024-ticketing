@@ -363,8 +363,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Erreur lors du chargement des tickets:', error);
     }
 
-    logoutBtn.addEventListener('click', () => {
-        clearSession();
+    logoutBtn.addEventListener('click', async () => {
+        await clearSession();
         window.location.href = '../index.html';
     });
 

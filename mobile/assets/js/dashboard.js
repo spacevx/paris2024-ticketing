@@ -259,9 +259,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            /*TODO: aussi le déco depuis Django? */
-            clearSession();
+        logoutBtn.addEventListener('click', async () => {
+            await clearSession();
             window.location.href = './index.html';
         });
     }

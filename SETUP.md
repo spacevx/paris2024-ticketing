@@ -7,22 +7,22 @@ pip install -r requirements.txt
 ```
 
 # Database
-Regarding the database, you don't have anything to execute. The project currently uses fixtures to load default data into the database (mainapp_stadium, mainapp_ticket, etc.).
-
 First, please configure the database access in `admin/mainapp/settings.py`
-and set your MySQL credentials in `DATABASES`. You don't need to create the `jo_project_starter` database,
-this will be done automatically.
+and set your MySQL credentials in `DATABASES`.
 
-Once this is done, you need to use the following commands (from the admin folder) to run the migrations:
+Once this is done, you need to use the following commands (from the admin folder) to run the migrations (this will automatically create all the necessary tables like `mainapp_team`, `mainapp_stadium`, `mainapp_event`, etc.):
 ```bash
-python manage.py makemigrations
+python manage.py makemigrations mainapp
 python manage.py migrate
 ```
 The commands must be executed in order.
-Once this is done, execute the following command (still from the admin folder) to load the default data:
+
+The project uses fixtures to automatically load default data (stadiums, teams, events) into the database. Execute this command (from the admin folder):
 ```bash
 python manage.py loaddata mainapp/fixtures/initial_data.json
 ```
+
+**Note**: The `data_jo.sql` file is a SQL backup and is not used in the setup process. Django migrations automatically create all tables.
 
 ## Admin dashboard
 To access the admin interface, you must first create a `superuser` account using the following command

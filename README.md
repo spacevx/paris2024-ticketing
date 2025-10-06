@@ -1,58 +1,44 @@
-# Projet JO - Documentation
+# Paris 2024 Olympic Games Ticketing Platform
 
-## Setup
-Il faut vous rendre dans le dossier admin et exécuter la commande
-```
-pip install -r requirements.txt
-```
+A ticketing system for Paris 2024 Olympic Games events, featuring an admin dashboard, a mobile-friendly customer interface, and a QR code scanner for ticket validation.
 
-# Base de données
-Concernant la base de données, vous n'avez rien à exécuter. Le projet utilise actuellement les fixtures pour mettre les données par défaut dans la base de données (mainapp_stadium, mainapp_ticket, etc.).
+## Project Overview
 
-Tout d'abord, veuillez configurer les accès de la base de données dans `admin/mainapp/settings.py`
-et mettez vos accès MySQL dans `DATABASES`. Vous n'avez pas besoin de créer la base de données `jo_project_starter`,
-cela sera fait automatiquement.
+This project is a ticketing solution divided into three main components, allowing administrators to manage events, customers to purchase tickets, and staff to validate entries.
 
-Une fois cela fait, il faut utiliser les commandes suivantes (depuis le dossier admin) pour faire les migrations :
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
+## Project Structure
 
-Il faut bien exécuter les commandes dans l'ordre.
-Une fois cela fait, exécutez la commande suivante (toujours depuis le dossier admin) afin de mettre les données par défaut :
-```bash
-python manage.py loaddata mainapp/fixtures/initial_data.json
-```
+### Admin
+Administrative interface for managing the entire ticketing system.
+- Create and manage matches/events
+- Manage teams and venues
+- Built with **Django** using server-side rendering
 
-## Dashboard Admin
+### Mobile
+Mobile-friendly frontend for end users.
+- User registration and authentication
+- Browse available events
+- Purchase tickets
+- View purchased tickets with QR codes
+- Communicates with the Django API via REST requests
 
-Pour accéder à l'interface administrateur, vous devez d'abord créer un compte `superuser` en utilisant la commande suivante :
+### Scanner
+Mobile-friendly scanner interface for staff and administrators.
+- Scan customer QR codes
+- Validate ticket authenticity
+- Real-time ticket verification
+- Communicates with the Django API for validation
 
-```bash
-python manage.py createsuperuser
-```
-Remplissez les informations nécessaires, puis lancez le serveur avec la commande :
+## 🛠️ Technologies Used
 
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
+![Django REST Framework](https://img.shields.io/badge/DRF-ff1709?style=for-the-badge&logo=django&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-```bash
-python manage.py runserver
-```
+## Getting Started
 
-**Attention**: Ces commandes doivent être exécutées depuis le dossier admin
-
-Pour accéder au menu administrateur, ouvrez votre navigateur et entrez l'adresse suivante :
-
-```bash
-http://127.0.0.1:8000/myadmin
-```
-(L'URL http://127.0.0.1:8000/admin étant l'interface admin de base de Django)
-
-Vous devrez vous authentifier avec les identifiants que vous avez créés précédemment. Une fois authentifié, vous aurez accès à l'interface administrateur.
-
-## Informations
-Bibliothèques python utilisées:
- - Django
- - Django Rest Framework
- - Django Cors Headers
- - MySQL Client
+Please refer to the [SETUP.md](SETUP.md) file for detailed setup instructions.

@@ -29,7 +29,7 @@ Mobile-friendly scanner interface for staff and administrators.
 - Real-time ticket verification
 - Communicates with the Django API for validation
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
